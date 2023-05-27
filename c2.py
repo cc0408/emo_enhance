@@ -16,7 +16,7 @@ import pandas as pd # data processing, CSV file I/O (e.g. pd.read_csv)
 
 import os
 os.environ["CUDA_VISIBLE_DEVICES"] = '1'
-for dirname, _, filenames in os.walk('/ssd1/csl/kaggle_emo/data'):
+for dirname, _, filenames in os.walk('/home/xuxi/emo_enhance/data'):
     for filename in filenames:
         print(os.path.join(dirname, filename))
 
@@ -76,9 +76,9 @@ device = torch.device("cuda")
 # In[6]:
 
 
-df_train = pd.read_csv("/ssd1/csl/kaggle_emo/data/train.txt", delimiter=';', header=None, names=['sentence','label'])
-df_test = pd.read_csv("/ssd1/csl/kaggle_emo/data/test.txt", delimiter=';', header=None, names=['sentence','label'])
-df_val = pd.read_csv("/ssd1/csl/kaggle_emo/data/val.txt", delimiter=';', header=None, names=['sentence','label'])
+df_train = pd.read_csv("/home/xuxi/emo_enhance/data/train.txt", delimiter=';', header=None, names=['sentence','label'])
+df_test = pd.read_csv("/home/xuxi/emo_enhance/data/test.txt", delimiter=';', header=None, names=['sentence','label'])
+df_val = pd.read_csv("/home/xuxi/emo_enhance/data/val.txt", delimiter=';', header=None, names=['sentence','label'])
 
 
 # In[7]:
@@ -191,7 +191,7 @@ type(train_dataloader)
 model = BertForSequenceClassification.from_pretrained("bert-large-uncased", num_labels=6).to(device)
 
 # Parameters:
-lr = 5e-6
+lr = 4e-6
 adam_epsilon = 1e-8
 
 # Number of training epochs (authors recommend between 2 and 4)
@@ -400,6 +400,6 @@ model_save_folder = 'model/'
 #tokenizer.save_pretrained(path_tokenizer)
 
 model_save_name = 'large3_fineTuneModel.pt'
-path = path_model = F'/ssd1/csl/kaggle_emo/{model_save_folder}/{model_save_name}'
+path = path_model = F'/home/xuxi/emo_enhance/{model_save_folder}/{model_save_name}'
 torch.save(model.state_dict(),path);
 
