@@ -21,6 +21,7 @@ import torch
 import torch.nn.functional as F
 import csv
 from sentence_transformers import SentenceTransformer
+from scipy.spatial.distance import cosine
 from src.dataset import load_data
 from src.utils import bool_flag, get_output_file, print_args, load_gpt2_from_dict
 
@@ -148,11 +149,11 @@ def main(args):
         print(label)
         print('TEXT')
         sentence = tokenizer.decode(input_ids)
-        print(sentence)
+        print(sentence[1:-1])
         print('LOGITS')
         print(clean_logit)
 
-        ori_ebd = use_model.encode([sentence])
+        ori_ebd = use_model.encode([sentence[1:-1]])
         
         forbidden = np.zeros(len(input_ids)).astype('bool')
         # set [CLS] and [SEP] tokens to forbidden
