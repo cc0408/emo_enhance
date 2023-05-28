@@ -222,7 +222,7 @@ def main(args):
                     else:
                         output = output.mean(1)
                     cosine = (output * orig_output).sum(1) / output.norm(2, 1) / orig_output.norm(2, 1)
-                    ref_loss = -args.lam_sim * dis.cosine.mean()
+                    ref_loss = -args.lam_sim * cosine.mean()
             else:
                 ref_loss = torch.Tensor([0]).cuda()
                
@@ -294,7 +294,7 @@ def main(args):
                 #choice_list.append([adv_logit[0][label],adv_text])
 
                 opt_ebd = use_model.encode([adv_text])
-                similarity = 1 - cosine(ori_ebd, opt_ebd)
+                similarity = 1 - dis.cosine(ori_ebd, opt_ebd)
                 if similarity > args.threshold and adv_logit[0][label] > ma[0][label]:
                     ma = adv_logit
                     unadv = adv_text
