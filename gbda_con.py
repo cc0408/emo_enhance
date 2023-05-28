@@ -149,11 +149,11 @@ def main(args):
         print(label)
         print('TEXT')
         sentence = tokenizer.decode(input_ids)
-        print(sentence[1:-1])
+        print(sentence)
         print('LOGITS')
         print(clean_logit)
 
-        ori_ebd = use_model.encode([sentence[1:-1]])
+        ori_ebd = use_model.encode([tokenizer.decode(input_ids[1:-1])])
         
         forbidden = np.zeros(len(input_ids)).astype('bool')
         # set [CLS] and [SEP] tokens to forbidden
