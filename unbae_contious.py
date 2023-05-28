@@ -17,7 +17,7 @@ def main(args):
         5: "surprise"
     }
     punc = string.punctuation
-    
+
     dataset, num_labels = load_data(args)
     dataset = dataset['test']
     model = AutoModelForSequenceClassification.from_pretrained(args.model, num_labels=num_labels).cuda()
@@ -28,8 +28,7 @@ def main(args):
     mlm_model.eval()
     tokenizer = AutoTokenizer.from_pretrained(args.model,do_lower_case=True)
     end_index = min(args.start_index + args.num_samples, len(dataset))
-    index = 7
-    use_model = SentenceTransformer("sentence-transformers/use-cmlm-multilingual")
+    use_model = SentenceTransformer("johngiorgi/declutr-small")
     with torch.no_grad():
         embeddings = model.get_input_embeddings()(torch.arange(0, tokenizer.vocab_size).long().cuda())
         # N * D
