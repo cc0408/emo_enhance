@@ -35,7 +35,7 @@ def load_data(args):
         dataset = load_dataset("SetFit/sst5")
         num_labels = 5
     elif args.dataset == "emos":
-        dataset = dataset = load_dataset("csv",data_dir="/ssd1/csl/kaggle_emo/data/",
+        dataset = dataset = load_dataset("csv",data_dir="/home/xuxi/emo_enhance/data/",
                                          data_files={'train':'train.csv', 'test':'test.csv'}, 
                                          column_names=["sentence", "label"])
         num_labels = 6
