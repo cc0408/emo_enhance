@@ -21,7 +21,7 @@ import torch
 import torch.nn.functional as F
 import csv
 from sentence_transformers import SentenceTransformer
-from scipy.spatial.distance import cosine
+import scipy.spatial.distance as dis
 from src.dataset import load_data
 from src.utils import bool_flag, get_output_file, print_args, load_gpt2_from_dict
 
@@ -222,7 +222,7 @@ def main(args):
                     else:
                         output = output.mean(1)
                     cosine = (output * orig_output).sum(1) / output.norm(2, 1) / orig_output.norm(2, 1)
-                    ref_loss = -args.lam_sim * cosine.mean()
+                    ref_loss = -args.lam_sim * dis.cosine.mean()
             else:
                 ref_loss = torch.Tensor([0]).cuda()
                
