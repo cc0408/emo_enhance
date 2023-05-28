@@ -19,7 +19,7 @@ def main(args):
     dataset, num_labels = load_data(args)
     dataset = dataset['test']
     model = AutoModelForSequenceClassification.from_pretrained(args.model, num_labels=num_labels).cuda()
-    model_checkpoint = '/home/xuxi/emo_enhance/model/large3_fineTuneModel.pt'
+    model_checkpoint = '/home/xuxi/emo_enhance/model/fineTuneModel.pt'
     print('Loading checkpoint: %s' % model_checkpoint)
     model.load_state_dict(torch.load(model_checkpoint))
     mlm_model = AutoModelForMaskedLM.from_pretrained(args.model, num_labels=num_labels).cuda()
@@ -148,7 +148,7 @@ if __name__ == "__main__":
         help="learning rate")
     parser.add_argument("--kappa", default=5, type=float,
         help="CW loss margin")
-    parser.add_argument("--k", default=10, type=int,
+    parser.add_argument("--k", default=20, type=int,
         help="topk words")
     parser.add_argument("--threshold", default=0.99, type=float,
         help="threshold of use")
