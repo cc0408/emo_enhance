@@ -59,7 +59,7 @@ def main(args):
                 similarity = 1 - cosine(ori_ebd, opt_ebd)
                 if similarity > args.threshold:
                     pred = model(tmp).logits
-                    print(similarity, pred[0][label].item(), output_sentence)
+                    #print(similarity, pred[0][label].item(), output_sentence)
                     if pred[0][label] > ma:
                         ma = pred[0][label]
                         answer = output_sentence
@@ -69,6 +69,7 @@ def main(args):
             return None
         raw =  tokenizer.encode(answer)
         forbidden_indices = [i for i in range(len(raw)) if i != add_pos]
+        forbidden_indices = torch.tensor(forbidden_indices).cuda()
         inputs_embeds = embeddings[raw] # T * D
         inputs_embeds.requires_grad = True
         optimizer = torch.optim.Adam([inputs_embeds], lr=args.lr)
@@ -82,11 +83,11 @@ def main(args):
             adv_loss.backward()
             inputs_embeds.grad.index_fill_(0, forbidden_indices, 0)
             optimizer.step()
-    dis = torch.pow(torch.unsqueeze(inputs_embeds,1)-torch.unsqueeze(embeddings,0),2).mean(dim=2)
-    output_ids = dis.argmin(dim=1)
-    print(output_ids)
-    output_sentence = tokenizer.decode(output_ids)
-    print(output_sentence)
+        dis = torch.pow(torch.unsqueeze(inputs_embeds,1)-torch.unsqueeze(embeddings,0),2).mean(dim=2)
+        output_ids = dis.argmin(dim=1)
+        print(output_ids)
+        output_sentence = tokenizer.decode(output_ids)
+        print(output_sentence)
         
 
         
