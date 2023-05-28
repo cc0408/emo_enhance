@@ -52,6 +52,8 @@ def main(args):
             v, predicted_index = predictions[0][0].topk(args.k, dim=-1)
             
             for mask_ids in predicted_index[index]:
+                if tokenizer.convert_ids_to_tokens(mask_ids.item())[:2]  == "##":
+                    continue
                 tmp = inserted_ids.clone()
                 tmp[0][index] = mask_ids
                 output_sentence = tokenizer.decode(tmp[0][1:-1].squeeze(0).cpu().tolist())
