@@ -2,6 +2,7 @@ from transformers import AutoTokenizer, AutoModelForSequenceClassification, Auto
 import transformers
 import torch
 import argparse
+import string
 from scipy.spatial.distance import cosine
 from sentence_transformers import SentenceTransformer
 from src.dataset import load_data
@@ -15,7 +16,8 @@ def main(args):
         1: "fear",
         5: "surprise"
     }
-
+    punc = string.punctuation
+    
     dataset, num_labels = load_data(args)
     dataset = dataset['test']
     model = AutoModelForSequenceClassification.from_pretrained(args.model, num_labels=num_labels).cuda()
@@ -52,7 +54,8 @@ def main(args):
             v, predicted_index = predictions[0][0].topk(args.k, dim=-1)
             
             for mask_ids in predicted_index[index]:
-                if tokenizer.convert_ids_to_tokens(mask_ids.item())[:2]  == "##":
+                word = tokenizer.convert_ids_to_tokens(mask_ids.item())
+                if word[:2]  == "##" or word in punc:
                     continue
                 tmp = inserted_ids.clone()
                 tmp[0][index] = mask_ids
@@ -67,8 +70,9 @@ def main(args):
                         answer = output_sentence
                         add_pos = index
         print('%.3f'%ma.item(), answer)
+        continue
         if add_pos == -1:
-            return None
+            continue
         raw =  tokenizer.encode(answer)
         forbidden_indices = [i for i in range(len(raw)) if i != add_pos]
         forbidden_indices = torch.tensor(forbidden_indices).cuda()
