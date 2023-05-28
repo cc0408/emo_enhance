@@ -19,7 +19,7 @@ def main(args):
     dataset, num_labels = load_data(args)
     dataset = dataset['test']
     model = AutoModelForSequenceClassification.from_pretrained(args.model, num_labels=num_labels).cuda()
-    model_checkpoint = '/home/xuxi/emo_enhance/model/large2_fineTuneModel.pt'
+    model_checkpoint = '/home/xuxi/emo_enhance/model/large3_fineTuneModel.pt'
     print('Loading checkpoint: %s' % model_checkpoint)
     model.load_state_dict(torch.load(model_checkpoint))
     mlm_model = AutoModelForMaskedLM.from_pretrained(args.model, num_labels=num_labels).cuda()
