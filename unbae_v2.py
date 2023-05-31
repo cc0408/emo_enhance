@@ -61,7 +61,7 @@ def main(args):
                     choice.append((pred[0][label].item(), mask_ids))
             choice.sort(reverse=True)
             if len(choice) != 0:
-                add_pos.append(choice[0]+(idx,))
+                add_pos.append(choice[0]+(index,))
         add_pos.sort(reverse=True)
         add_pos = add_pos[:min(len(add_pos),2)]
         add_pos.sort(key=lambda x:(x[1]),reverse=True)
