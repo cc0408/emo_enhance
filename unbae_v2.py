@@ -65,7 +65,7 @@ def main(args):
                 output_sentence = tokenizer.decode(tmp[0][1:-1].squeeze(0).cpu().tolist())
                 opt_ebd = use_model.encode([output_sentence])
                 similarity = 1 - cosine(ori_ebd, opt_ebd)
-                if similarity > args.threshold - (lidx<=10)*0.1:
+                if similarity > args.threshold - (lidx<=10)*0.0:
                     pred = model(tmp).logits
                     choice.append((pred[0][label].item(), mask_ids))
             choice.sort(reverse=True)
