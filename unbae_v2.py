@@ -49,6 +49,7 @@ def main(args):
             predictions = mlm_model(inserted_ids)
             v, predicted_index = predictions[0][0].topk(args.k, dim=-1)
             
+            lidx=len(idx)
             choice = []
             for mask_ids in predicted_index[index]:
                 tmp = inserted_ids.clone()
@@ -56,7 +57,7 @@ def main(args):
                 output_sentence = tokenizer.decode(tmp[0][1:-1].squeeze(0).cpu().tolist())
                 opt_ebd = use_model.encode([output_sentence])
                 similarity = 1 - cosine(ori_ebd, opt_ebd)
-                if similarity > args.threshold:
+                if similarity > args.threshold - (lidx<=10)*0.5:
                     pred = model(tmp).logits
                     choice.append((pred[0][label].item(), mask_ids))
             choice.sort(reverse=True)
