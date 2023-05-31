@@ -45,6 +45,9 @@ def main(args):
         answer = sentence
         add_pos = []
         for index in range(1,len(input_ids)-1):
+            word = tokenizer.convert_ids_to_tokens(input_ids[index].item())
+            if word[:2]  == "##":
+                continue
             inserted_ids = input_ids.copy()
             inserted_ids.insert(index, 103)
             inserted_ids = torch.tensor([inserted_ids]).cuda()
