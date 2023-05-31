@@ -57,9 +57,9 @@ def main(args):
             lidx=len(input_ids)
             choice = []
             for mask_ids in predicted_index[index]:
-                word = tokenizer.convert_ids_to_tokens(mask_ids.item())
-                if word[:2]  == "##" or word in punc:
-                    continue
+                # word = tokenizer.convert_ids_to_tokens(mask_ids.item())
+                # if word[:2]  == "##" or word in punc:
+                #     continue
                 tmp = inserted_ids.clone()
                 tmp[0][index] = mask_ids
                 output_sentence = tokenizer.decode(tmp[0][1:-1].squeeze(0).cpu().tolist())
@@ -73,7 +73,7 @@ def main(args):
                 add_pos.append(choice[0]+(index,))
         add_pos.sort(reverse=True)
         add_pos = add_pos[:min(len(add_pos),2)]
-        add_pos.sort(key=lambda x:(x[1]),reverse=True)
+        add_pos.sort(key=lambda x:(x[2]),reverse=True)
         inserted_ids = input_ids.copy()
         for tp in add_pos:
             inserted_ids.insert(tp[2], tp[1])
