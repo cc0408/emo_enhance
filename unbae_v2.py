@@ -67,8 +67,8 @@ def main(args):
         add_pos.sort(key=lambda x:(x[1]),reverse=True)
         answer = input_ids.copy()
         for tp in add_pos:
-            inserted_ids.insert(tp[2], tp[1])
-        answer = tokenizer.decode(inserted_ids)
+            answer.insert(tp[2], tp[1])
+        answer = tokenizer.decode(answer)
         unadv_logits = model(torch.LongTensor(inserted_ids).cuda().unsqueeze(0)).logits[0][label].item()
         print(unadv_logits, answer,sep='\n')
         
