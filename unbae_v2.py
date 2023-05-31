@@ -2,6 +2,7 @@ from transformers import AutoTokenizer, AutoModelForSequenceClassification, Auto
 import transformers
 import torch
 import argparse
+import string
 from scipy.spatial.distance import cosine
 from sentence_transformers import SentenceTransformer
 from src.dataset import load_data
@@ -15,6 +16,7 @@ def main(args):
         1: "fear",
         5: "surprise"
     }
+    punc = string.punctuation
 
     dataset, num_labels = load_data(args)
     dataset = dataset['test']
@@ -52,6 +54,9 @@ def main(args):
             lidx=len(input_ids)
             choice = []
             for mask_ids in predicted_index[index]:
+                word = tokenizer.convert_ids_to_tokens(mask_ids.item())
+                if word[:2]  == "##" or word in punc:
+                    continue
                 tmp = inserted_ids.clone()
                 tmp[0][index] = mask_ids
                 output_sentence = tokenizer.decode(tmp[0][1:-1].squeeze(0).cpu().tolist())
