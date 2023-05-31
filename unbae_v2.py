@@ -49,7 +49,7 @@ def main(args):
             predictions = mlm_model(inserted_ids)
             v, predicted_index = predictions[0][0].topk(args.k, dim=-1)
             
-            lidx=len(idx)
+            lidx=len(input_ids)
             choice = []
             for mask_ids in predicted_index[index]:
                 tmp = inserted_ids.clone()
