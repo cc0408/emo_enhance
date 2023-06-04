@@ -128,7 +128,7 @@ print("Distribution of data based on labels: ",df.label.value_counts())
 MAX_LEN = 256
 
 ## Import BERT tokenizer, that is used to convert our text into tokens that corresponds to BERT library
-tokenizer = RobertaTokenizer.from_pretrained('cardiffnlp/twitter-roberta-base-emotion',do_lower_case=True)
+tokenizer = RobertaTokenizer.from_pretrained('roberta-base',do_lower_case=True)
 input_ids = [tokenizer.encode(sent, add_special_tokens=True,max_length=MAX_LEN,pad_to_max_length=True) for sent in sentences]
 labels = df.label.values
 
@@ -188,7 +188,7 @@ type(train_dataloader)
 
 
 # Load RobertaForSequenceClassification, the pretrained BERT model with a single linear classification layer on top. 
-model = RobertaForSequenceClassification.from_pretrained("cardiffnlp/twitter-roberta-base-emotion", num_labels=6).to(device)
+model = RobertaForSequenceClassification.from_pretrained("roberta-base", num_labels=6).to(device)
 
 # Parameters:
 lr = 3e-5
