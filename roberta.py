@@ -245,7 +245,7 @@ for _ in tnrange(1,epochs+1,desc='Epoch'):
     optimizer.step()
     
     # Update learning rate schedule
-    scheduler.step()
+    #scheduler.step()
 
     # Clear the previous accumulated gradients
     optimizer.zero_grad()
