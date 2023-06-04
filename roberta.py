@@ -188,7 +188,7 @@ type(train_dataloader)
 
 
 # Load RobertaForSequenceClassification, the pretrained BERT model with a single linear classification layer on top. 
-model = RobertaForSequenceClassification.from_pretrained("cardiffnlp/twitter-roberta-base-emotion").to(device)
+model = RobertaForSequenceClassification.from_pretrained("cardiffnlp/twitter-roberta-base-emotion", num_labels=6).to(device)
 
 # Parameters:
 lr = 3e-5
