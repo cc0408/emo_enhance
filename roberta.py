@@ -195,7 +195,7 @@ lr = 1e-6
 adam_epsilon = 1e-8
 
 # Number of training epochs (authors recommend between 2 and 4)
-epochs = 3
+epochs = 10
 
 num_warmup_steps = 0
 num_training_steps = len(train_dataloader)*epochs
@@ -400,7 +400,7 @@ model_save_folder = 'model/'
 #model.save_pretrained(path_model)
 #tokenizer.save_pretrained(path_tokenizer)
 
-model_save_name = 'roberta_fineTuneModel.pt'
+model_save_name = 'roberta2_fineTuneModel.pt'
 path = path_model = F'/home/xuxi/emo_enhance/{model_save_folder}/{model_save_name}'
 torch.save(model.state_dict(),path);
 
