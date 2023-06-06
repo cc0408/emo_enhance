@@ -195,7 +195,7 @@ lr = 1e-5
 adam_epsilon = 1e-8
 
 # Number of training epochs (authors recommend between 2 and 4)
-epochs = 1
+epochs = 10
 
 num_warmup_steps = len(train_dataloader)*2
 num_training_steps = len(train_dataloader)*epochs
