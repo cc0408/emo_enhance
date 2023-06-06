@@ -229,7 +229,7 @@ for _ in tnrange(1,epochs+1,desc='Epoch'):
     batch = tuple(t.to(device) for t in batch)
     # Unpack the inputs from our dataloader
     b_input_ids, b_input_mask, b_labels = batch
-
+    print(b_labels.to('cpu'))
     # Forward pass
     outputs = model(b_input_ids, token_type_ids=None, attention_mask=b_input_mask, labels=b_labels)
     loss = outputs[0]
@@ -400,7 +400,7 @@ model_save_folder = 'model/'
 #model.save_pretrained(path_model)
 #tokenizer.save_pretrained(path_tokenizer)
 
-model_save_name = 'roberta-base_fineTuneModel.pth'
+model_save_name = 'roberta-base2_fineTuneModel.pth'
 path = path_model = F'/home/xuxi/emo_enhance/{model_save_folder}/{model_save_name}'
 torch.save(model.state_dict(),path)
 
