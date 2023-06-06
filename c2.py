@@ -399,7 +399,7 @@ model_save_folder = 'model/'
 #model.save_pretrained(path_model)
 #tokenizer.save_pretrained(path_tokenizer)
 
-model_save_name = 'fineTuneModel.pth'
+model_save_name = 'bert-base-uncased_fineTuneModel.pth'
 path = path_model = F'/home/xuxi/emo_enhance/{model_save_folder}/{model_save_name}'
 torch.save(model.state_dict(),path)
 
