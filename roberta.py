@@ -27,7 +27,7 @@ for dirname, _, filenames in os.walk('/home/xuxi/emo_enhance/data'):
 import torch
 from torch.utils.data import TensorDataset, DataLoader, RandomSampler, SequentialSampler
 import torch.nn.functional as F
-from transformers import RobertaTokenizer, BertConfig,AdamW, RobertaForSequenceClassification,get_linear_schedule_with_warmup
+from transformers import AutoTokenizer, BertConfig,AdamW, AutoModelForSequenceClassification,get_linear_schedule_with_warmup
 
 
 import pandas as pd
@@ -128,7 +128,7 @@ print("Distribution of data based on labels: ",df.label.value_counts())
 MAX_LEN = 256
 
 ## Import BERT tokenizer, that is used to convert our text into tokens that corresponds to BERT library
-tokenizer = RobertaTokenizer.from_pretrained('roberta-base',do_lower_case=True)
+tokenizer = AutoTokenizer.from_pretrained('roberta-base',do_lower_case=True)
 input_ids = [tokenizer.encode(sent, add_special_tokens=True,max_length=MAX_LEN,pad_to_max_length=True) for sent in sentences]
 labels = df.label.values
 
@@ -188,7 +188,7 @@ type(train_dataloader)
 
 
 # Load RobertaForSequenceClassification, the pretrained BERT model with a single linear classification layer on top. 
-model = RobertaForSequenceClassification.from_pretrained("roberta-base", num_labels=6).to(device)
+model = AutoModelForSequenceClassification.from_pretrained("roberta-base", num_labels=6).to(device)
 
 # Parameters:
 lr = 1e-5
@@ -400,7 +400,7 @@ model_save_folder = 'model/'
 #model.save_pretrained(path_model)
 #tokenizer.save_pretrained(path_tokenizer)
 
-model_save_name = 'roberta9_fineTuneModel.pt'
+model_save_name = 'roberta_fineTuneModel.pt'
 path = path_model = F'/home/xuxi/emo_enhance/{model_save_folder}/{model_save_name}'
 torch.save(model.state_dict(),path)
 

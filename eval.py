@@ -1,4 +1,4 @@
-from transformers import AutoTokenizer, RobertaForSequenceClassification, AutoModelForCausalLM
+from transformers import AutoTokenizer, AutoModelForSequenceClassification, AutoModelForCausalLM
 import transformers
 import torch
 import argparse
@@ -7,7 +7,7 @@ from src.utils import bool_flag, get_output_file, print_args, load_gpt2_from_dic
 
 def main(args):
     num_labels = 6
-    model = RobertaForSequenceClassification.from_pretrained(args.model, num_labels=num_labels).cuda()
+    model = AutoModelForSequenceClassification.from_pretrained(args.model, num_labels=num_labels).cuda()
     model_checkpoint = '/home/xuxi/emo_enhance/model/roberta_fineTuneModel.pt'
     print('Loading checkpoint: %s' % model_checkpoint)
     model.load_state_dict(torch.load(model_checkpoint))
