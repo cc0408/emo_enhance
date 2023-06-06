@@ -163,7 +163,7 @@ train_masks = torch.tensor(train_masks)
 validation_masks = torch.tensor(validation_masks)
 
 # Select a batch size for training. For fine-tuning BERT on a specific task, the authors recommend a batch size of 16 or 32
-batch_size = 24
+batch_size = 32
 
 # Create an iterator of our data with torch DataLoader. This helps save on memory during training because, unlike a for loop, 
 # with an iterator the entire dataset does not need to be loaded into memory
@@ -188,10 +188,10 @@ type(train_dataloader)
 
 
 # Load BertForSequenceClassification, the pretrained BERT model with a single linear classification layer on top. 
-model = BertForSequenceClassification.from_pretrained("bert-large-uncased", num_labels=6).to(device)
+model = BertForSequenceClassification.from_pretrained("bert-base-uncased", num_labels=6).to(device)
 
 # Parameters:
-lr = 4e-6
+lr = 2e-5
 adam_epsilon = 1e-8
 
 # Number of training epochs (authors recommend between 2 and 4)
@@ -399,7 +399,7 @@ model_save_folder = 'model/'
 #model.save_pretrained(path_model)
 #tokenizer.save_pretrained(path_tokenizer)
 
-model_save_name = 'large3_fineTuneModel.pt'
+model_save_name = 'fineTuneModel.pth'
 path = path_model = F'/home/xuxi/emo_enhance/{model_save_folder}/{model_save_name}'
-torch.save(model.state_dict(),path);
+torch.save(model.state_dict(),path)
 
