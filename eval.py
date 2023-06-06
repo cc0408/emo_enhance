@@ -13,7 +13,7 @@ def main(args):
     model.load_state_dict(torch.load(model_checkpoint))
     tokenizer = AutoTokenizer.from_pretrained(args.model,do_lower_case=True)
     model.eval()
-    input_ids = tokenizer.encode(args.sentence)
+    input_ids = tokenizer.encode(args.sentence, add_special_tokens=True,max_length=MAX_LEN,pad_to_max_length=True)
     clean_logit = model(input_ids=torch.LongTensor(input_ids).unsqueeze(0).cuda())[0].cpu()
     print(clean_logit)
 
