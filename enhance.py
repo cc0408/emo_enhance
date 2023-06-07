@@ -90,7 +90,7 @@ def main(args):
     if not pretrained:
         # Load model to attack
         suffix = '_finetune' if args.finetune else ''
-        model_checkpoint = '/home/xuxi/emo_enhance/model/fineTuneModel.pt'#os.path.join(args.result_folder, '%s_%s%s.pth' % (args.model.replace('/', '-'), args.dataset, suffix))
+        model_checkpoint = f'/home/xuxi/emo_enhance/model/{args.model}fineTuneModel.pt'#os.path.join(args.result_folder, '%s_%s%s.pth' % (args.model.replace('/', '-'), args.dataset, suffix))
         print('Loading checkpoint: %s' % model_checkpoint)
         model.load_state_dict(torch.load(model_checkpoint))
         tokenizer.model_max_length = 512

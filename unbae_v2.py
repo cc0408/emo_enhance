@@ -14,6 +14,7 @@ def main(args):
         2: "joy",
         0: "anger",
         1: "fear",
+        3: "love",
         5: "surprise"
     }
     punc = string.punctuation
@@ -21,14 +22,13 @@ def main(args):
     dataset, num_labels = load_data(args)
     dataset = dataset['test']
     model = AutoModelForSequenceClassification.from_pretrained(args.model, num_labels=num_labels).cuda()
-    model_checkpoint = '/home/xuxi/emo_enhance/model/fineTuneModel.pt'
+    model_checkpoint = f'/home/xuxi/emo_enhance/model/{args.model}_fineTuneModel.pt'
     print('Loading checkpoint: %s' % model_checkpoint)
     model.load_state_dict(torch.load(model_checkpoint))
     mlm_model = AutoModelForMaskedLM.from_pretrained(args.model, num_labels=num_labels).cuda()
     mlm_model.eval()
     tokenizer = AutoTokenizer.from_pretrained(args.model,do_lower_case=True)
     end_index = min(args.start_index + args.num_samples, len(dataset))
-    index = 7
     use_model = SentenceTransformer("johngiorgi/declutr-small")
     
     for idx in range(args.start_index, end_index):
@@ -57,9 +57,6 @@ def main(args):
             lidx=len(input_ids)
             choice = []
             for mask_ids in predicted_index[index]:
-                # word = tokenizer.convert_ids_to_tokens(mask_ids.item())
-                # if word[:2]  == "##" or word in punc:
-                #     continue
                 tmp = inserted_ids.clone()
                 tmp[0][index] = mask_ids
                 output_sentence = tokenizer.decode(tmp[0][1:-1].squeeze(0).cpu().tolist())
