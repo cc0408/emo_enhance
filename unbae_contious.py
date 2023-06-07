@@ -95,8 +95,9 @@ def main(args):
         dis = torch.pow(torch.unsqueeze(inputs_embeds,1)-torch.unsqueeze(embeddings,0),2).mean(dim=2)
         output_ids = dis.argmin(dim=1)
         print(output_ids)
+        ma = model(torch.LongTensor(output_ids).cuda().unsqueeze(0)).logits[0][label]
         output_sentence = tokenizer.decode(output_ids)
-        print(output_sentence)
+        print('%.3f'%ma.item(), output_sentence)
         
 
         
