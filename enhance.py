@@ -65,8 +65,6 @@ def main(args):
         5: "surprise"
     }
     punc = string.punctuation
-    mlm_model = AutoModelForMaskedLM.from_pretrained(args.model, num_labels=num_labels).cuda()
-    mlm_model.eval()
 
     pretrained = args.model.startswith('textattack')
     output_file = get_output_file(args, args.model, args.start_index, args.start_index + args.num_samples)
@@ -84,6 +82,8 @@ def main(args):
         label_perm = lambda x: (x + 1) % 3
 
     # Load tokenizer, model, and reference model
+    mlm_model = AutoModelForMaskedLM.from_pretrained(args.model, num_labels=num_labels).cuda()
+    mlm_model.eval()
     tokenizer = AutoTokenizer.from_pretrained(args.model,do_lower_case=True)
     tokenizer.model_max_length = 512
     model = AutoModelForSequenceClassification.from_pretrained(args.model, num_labels=num_labels).cuda()
