@@ -171,7 +171,7 @@ def main(args):
             choice = []
             for mask_ids in predicted_index[index]:
                 word = tokenizer.convert_ids_to_tokens(mask_ids.item())
-                if word[:2]  == "##":
+                if word[:2]  == "##" or word in punc:
                     continue
                 tmp = inserted_ids.clone()
                 tmp[0][index] = mask_ids
