@@ -21,7 +21,6 @@ import time
 import torch
 import torch.nn.functional as F
 import csv
-from scipy.spatial.distance import cosine
 from sentence_transformers import SentenceTransformer
 import scipy.spatial.distance as dis
 from src.dataset import load_data
@@ -175,7 +174,7 @@ def main(args):
                 tmp[0][index] = mask_ids
                 output_sentence = tokenizer.decode(tmp[0][1:-1].squeeze(0).cpu().tolist())
                 opt_ebd = use_model.encode([output_sentence])
-                similarity = 1 - cosine(ori_ebd, opt_ebd)
+                similarity = 1 - dis.cosine(ori_ebd, opt_ebd)
                 if similarity > args.threshold - (lidx<=10)*0.2:
                     pred = model(tmp).logits
                     choice.append((pred[0][label].item(), mask_ids))
