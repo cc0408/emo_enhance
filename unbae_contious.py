@@ -14,6 +14,7 @@ def main(args):
         2: "joy",
         0: "anger",
         1: "fear",
+        3: "love",
         5: "surprise"
     }
     punc = string.punctuation
@@ -21,7 +22,7 @@ def main(args):
     dataset, num_labels = load_data(args)
     dataset = dataset['test']
     model = AutoModelForSequenceClassification.from_pretrained(args.model, num_labels=num_labels).cuda()
-    model_checkpoint = f'/home/xuxi/emo_enhance/model/{args.model}_fineTuneModel.pt'
+    model_checkpoint = f'/home/xuxi/emo_enhance/model/{args.model}_fineTuneModel.pth'
     print('Loading checkpoint: %s' % model_checkpoint)
     model.load_state_dict(torch.load(model_checkpoint))
     mlm_model = AutoModelForMaskedLM.from_pretrained(args.model, num_labels=num_labels).cuda()
