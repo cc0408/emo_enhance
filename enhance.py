@@ -21,6 +21,7 @@ import time
 import torch
 import torch.nn.functional as F
 import csv
+from scipy.spatial.distance import cosine
 from sentence_transformers import SentenceTransformer
 import scipy.spatial.distance as dis
 from src.dataset import load_data
