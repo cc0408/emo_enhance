@@ -69,7 +69,7 @@ def main(args):
                         answer = output_sentence
                         add_pos = index
         print('%.3f'%ma.item(), answer)
-        continue
+        #continue
         if add_pos == -1:
             continue
         raw =  tokenizer.encode(answer)
@@ -86,6 +86,9 @@ def main(args):
             indices = top_preds.gather(1, correct.view(-1, 1))
             adv_loss = -(pred[:, label] - pred.gather(1, indices).squeeze() + args.kappa).clamp(min=0).mean()
             adv_loss.backward()
+            word_emb = inputs_embeds.grad[add_pos]
+            molen = (word_emb * word_emb).sum()
+            inputs_embeds.grad /= molen
             inputs_embeds.grad.index_fill_(0, forbidden_indices, 0)
             optimizer.step()
         dis = torch.pow(torch.unsqueeze(inputs_embeds,1)-torch.unsqueeze(embeddings,0),2).mean(dim=2)
@@ -149,7 +152,7 @@ if __name__ == "__main__":
     parser.add_argument("--constraint", default="bertscore_idf", type=str,
         choices=["cosine", "bertscore", "bertscore_idf"],
         help="constraint function")
-    parser.add_argument("--lr", default=3e-1, type=float,
+    parser.add_argument("--lr", default=1e-2, type=float,
         help="learning rate")
     parser.add_argument("--kappa", default=5, type=float,
         help="CW loss margin")
