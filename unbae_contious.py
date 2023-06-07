@@ -96,7 +96,7 @@ def main(args):
         output_ids = dis.argmin(dim=1)
         print(output_ids)
         #print(output_ids, ma)
-        ma = model(torch.LongTensor(output_ids).unsqueeze(0)).logits[0][label]
+        ma = model(output_ids.unsqueeze(0)).logits[0][label]
         output_sentence = tokenizer.decode(output_ids)
         print('%.3f'%ma.item(), output_sentence)
         
