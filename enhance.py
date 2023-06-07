@@ -153,8 +153,8 @@ def main(args):
         print('label', int2label[label])
         #print(sentence)
         ori_ebd = use_model.encode([sentence])
-        clean_logits = model(torch.LongTensor(input_ids).cuda().unsqueeze(0)).logits[0][label].item()
-        print(clean_logits, sentence, sep='\n')
+        clean_logit = model(torch.LongTensor(input_ids).cuda().unsqueeze(0)).logits[0][label].item()
+        print(clean_logit, sentence, sep='\n')
         answer = sentence
         add_pos = []
         for index in range(1,len(input_ids)-1):
