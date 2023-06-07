@@ -170,7 +170,7 @@ def main(args):
             lidx=len(input_ids)
             choice = []
             for mask_ids in predicted_index[index]:
-                word = tokenizer.convert_ids_to_tokens(mask_ids)
+                word = tokenizer.convert_ids_to_tokens(mask_ids.item())
                 if word[:2]  == "##":
                     continue
                 tmp = inserted_ids.clone()
