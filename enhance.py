@@ -468,8 +468,10 @@ if __name__ == "__main__":
         help="print loss every x iterations")
     parser.add_argument("--gumbel_samples", default=100, type=int,
         help="number of gumbel samples; if 0, use argmax")
-    parser.add_argument("--threshold", default=0.99, type=float,
+    parser.add_argument("--threshold", default=0.98, type=float,
         help="threshold of use")
+    parser.add_argument("--k", default=30, type=int,
+        help="topk words")
 
     args = parser.parse_args()
     print_args(args)
