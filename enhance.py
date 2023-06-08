@@ -21,6 +21,7 @@ import time
 import torch
 import torch.nn.functional as F
 import csv
+import pandas as pd
 from sentence_transformers import SentenceTransformer
 import scipy.spatial.distance as dis
 from src.dataset import load_data
@@ -144,6 +145,7 @@ def main(args):
     end_index = min(args.start_index + args.num_samples, len(encoded_dataset[testset_key]))
     adv_losses, ref_losses, perp_losses, entropies = torch.zeros(end_index - args.start_index, args.num_iters), torch.zeros(end_index - args.start_index, args.num_iters), torch.zeros(end_index - args.start_index, args.num_iters), torch.zeros(end_index - args.start_index, args.num_iters)
     #print(end_index)
+    data = []
     for idx in range(args.start_index, end_index):
         
         input_ids = encoded_dataset[testset_key]['input_ids'][idx]
@@ -155,7 +157,7 @@ def main(args):
         ori_ebd = use_model.encode([sentence])
         clean_logit = model(torch.LongTensor(input_ids).cuda().unsqueeze(0)).logits[0][label].item()
         print(clean_logit, sentence, sep='\n')
-        answer = sentence
+        data_pair = [sentence]
         add_pos = []
         for index in range(1,len(input_ids)-1):
             word = tokenizer.convert_ids_to_tokens(input_ids[index])
@@ -368,6 +370,7 @@ def main(args):
                     else:
                         adv_texts.append(unadv)
                         print(unadv)
+                        data_pair.append(unadv)
                     #adv_logits.append(ma)
                     break
         #choice_list = list(set(choice_list))
@@ -389,8 +392,10 @@ def main(args):
         print(clean_logit) # size 1 x C
         print('ADVERSARIAL LOGITS')
         print(ma)   # size 1 x C
-            
-    print("Token Error Rate: %.4f (over %d tokens)" % (sum(token_errors) / len(token_errors), len(token_errors)))
+        data.append(data_pair)
+    datafl = pd.DataFrame(data)
+    df=datafl.to_csv('sentences.csv')        
+    # print("Token Error Rate: %.4f (over %d tokens)" % (sum(token_errors) / len(token_errors), len(token_errors)))
     '''
     torch.save({
         'adv_log_coeffs': adv_log_coeffs, 
