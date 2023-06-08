@@ -192,9 +192,9 @@ def main(args):
             inserted_ids.insert(tp[2], tp[1])
         answer = tokenizer.decode(inserted_ids)
         unadv_logits = model(torch.LongTensor(inserted_ids).cuda().unsqueeze(0)).logits[0][label].item()
-        print(unadv_logits, answer,sep='\n')
+        # print(unadv_logits, answer,sep='\n')
 
-        print(idx)
+        # print(idx)
         input_ids = inserted_ids#encoded_dataset[testset_key]['input_ids'][idx]
         #lbfile.writerow([label_perm(encoded_dataset[testset_key]['label'][idx])])
         #continue
@@ -207,13 +207,13 @@ def main(args):
         label = label_perm(encoded_dataset[testset_key]['label'][idx])
         clean_logit = model(input_ids=torch.LongTensor(input_ids).unsqueeze(0).cuda(),
                              token_type_ids=(None if token_type_ids is None else torch.LongTensor(token_type_ids).unsqueeze(0).cuda())).logits.data.cpu()
-        print('LABEL')
-        print(label)
-        print('TEXT')
+        # print('LABEL')
+        # print(label)
+        # print('TEXT')
         sentence = tokenizer.decode(input_ids)
-        print(sentence)
-        print('LOGITS')
-        print(clean_logit)
+        # print(sentence)
+        # print('LOGITS')
+        # print(clean_logit)
 
         ori_ebd = use_model.encode([tokenizer.decode(input_ids[1:-1])])
         
