@@ -4,7 +4,7 @@
 # LICENSE file in the root directory of this source tree.
 #
 import os
-os.environ["CUDA_VISIBLE_DEVICES"] = '2'
+#os.environ["CUDA_VISIBLE_DEVICES"] = '2'
 from bert_score.utils import get_idf_dict
 from datasets import load_dataset
 from transformers import AutoTokenizer, AutoModelForSequenceClassification, AutoModelForCausalLM, AutoModelForMaskedLM
