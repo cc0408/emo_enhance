@@ -146,6 +146,8 @@ def main(args):
     adv_losses, ref_losses, perp_losses, entropies = torch.zeros(end_index - args.start_index, args.num_iters), torch.zeros(end_index - args.start_index, args.num_iters), torch.zeros(end_index - args.start_index, args.num_iters), torch.zeros(end_index - args.start_index, args.num_iters)
     #print(end_index)
     data = []
+    sum_clean = 0.0
+    sum_boost = 0.0
     for idx in range(args.start_index, end_index):
         
         input_ids = encoded_dataset[testset_key]['input_ids'][idx]
@@ -158,6 +160,7 @@ def main(args):
         #print(sentence)
         ori_ebd = use_model.encode([sentence])
         clean_logit = model(torch.LongTensor(input_ids).cuda().unsqueeze(0)).logits[0][label].item()
+        sum_clean += clean_logit
         print(clean_logit, sentence, sep='\n')
         data_pair = [sentence]
         add_pos = []
@@ -189,7 +192,7 @@ def main(args):
             if len(choice) != 0:
                 add_pos.append(choice[0]+(index,))
         add_pos.sort(reverse=True)
-        add_pos = add_pos[:min(len(add_pos),1+(len(sentence)>20))]
+        add_pos = add_pos[:min(len(add_pos),2)]
         add_pos.sort(key=lambda x:(x[2]),reverse=True)
         inserted_ids = input_ids.copy()
         for tp in add_pos:
@@ -394,9 +397,11 @@ def main(args):
         print(clean_logit) # size 1 x C
         print('ADVERSARIAL LOGITS')
         print(ma)   # size 1 x C
+        sum_boost += ma[0][label]
         data.append(data_pair)
+    print(sum_clean/args.num_samples, sum_boost/args.num_samples)
     datafl = pd.DataFrame(data)
-    df=datafl.to_csv('sentences_l40t98b30.csv')        
+    #df=datafl.to_csv('sentences_l30t98i200.csv')        
     # print("Token Error Rate: %.4f (over %d tokens)" % (sum(token_errors) / len(token_errors), len(token_errors)))
     '''
     torch.save({
