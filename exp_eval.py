@@ -85,10 +85,10 @@ def main(args):
     # Load tokenizer, model, and reference model
     mlm_model = AutoModelForMaskedLM.from_pretrained(args.model, num_labels=num_labels).cuda()
     mlm_model.eval()
-    eval_model = AutoModelForSequenceClassification.from_pretrained('roberta_base', num_labels=num_labels).cuda()
-    model_checkpoint = '/home/xuxi/emo_enhance/model/roberta_base_fineTuneModel.pth'
+    eval_model = AutoModelForSequenceClassification.from_pretrained('roberta-base', num_labels=num_labels).cuda()
+    model_checkpoint = '/home/xuxi/emo_enhance/model/roberta-base_fineTuneModel.pth'
     eval_model.load_state_dict(torch.load(model_checkpoint))
-    tk2 = AutoTokenizer.from_pretrained('roberta_base',do_lower_case=True)
+    tk2 = AutoTokenizer.from_pretrained('roberta-base',do_lower_case=True)
     tokenizer = AutoTokenizer.from_pretrained(args.model,do_lower_case=True)
     tokenizer.model_max_length = 512
     model = AutoModelForSequenceClassification.from_pretrained(args.model, num_labels=num_labels).cuda()
