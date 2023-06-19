@@ -165,8 +165,8 @@ def main(args):
         #print(sentence)
         ori_ebd = use_model.encode([sentence])
         #clean_logit = model(torch.LongTensor(input_ids).cuda().unsqueeze(0)).logits[0][label].item()
-        ip2 = tk2.encode(sentence, add_special_tokens=True,max_length=256,padding=True)
-        clean_logit = model(input_ids=torch.LongTensor(ip2).unsqueeze(0).cuda())[0].cpu()[0][label].item()
+        ip2 = tk2.encode(sentence, add_special_tokens=True,max_length=256,padding='max_length')
+        clean_logit = eval_model(input_ids=torch.LongTensor(ip2).unsqueeze(0).cuda())[0].cpu()[0][label].item()
         sum_clean += clean_logit
         print(clean_logit, sentence, sep='\n')
         data_pair = [sentence]
@@ -404,8 +404,8 @@ def main(args):
         print(clean_logit) # size 1 x C
         print('ADVERSARIAL LOGITS')
         print(ma)   # size 1 x C
-        ip2 = tk2.encode(unadv, add_special_tokens=True,max_length=256,pad_to_max_length=True)
-        boost_logit = model(input_ids=torch.LongTensor(ip2).unsqueeze(0).cuda())[0].cpu()[0][label].item()
+        ip2 = tk2.encode(unadv, add_special_tokens=True,max_length=256,padding='max_length')
+        boost_logit = eval_model(input_ids=torch.LongTensor(ip2).unsqueeze(0).cuda())[0].cpu()[0][label].item()
         sum_boost += sum_boost
         print(boost_logit)
         data.append(data_pair)
