@@ -151,6 +151,8 @@ def main(args):
         input_ids = encoded_dataset[testset_key]['input_ids'][idx]
         sentence = dataset[testset_key][idx]['sentence']
         label = dataset[testset_key][idx]['label']
+        if label != 3:
+            continue
         print(idx)
         print('label', int2label[label])
         #print(sentence)
@@ -394,7 +396,7 @@ def main(args):
         print(ma)   # size 1 x C
         data.append(data_pair)
     datafl = pd.DataFrame(data)
-    df=datafl.to_csv('sentences.csv')        
+    df=datafl.to_csv('sentences_love.csv')        
     # print("Token Error Rate: %.4f (over %d tokens)" % (sum(token_errors) / len(token_errors), len(token_errors)))
     '''
     torch.save({
