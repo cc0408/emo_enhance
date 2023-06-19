@@ -406,7 +406,7 @@ def main(args):
         print(ma)   # size 1 x C
         ip2 = tk2.encode(unadv, add_special_tokens=True,max_length=256,padding='max_length')
         boost_logit = eval_model(input_ids=torch.LongTensor(ip2).unsqueeze(0).cuda())[0].cpu()[0][label].item()
-        sum_boost += sum_boost
+        sum_boost += boost_logit
         print(boost_logit)
         data.append(data_pair)
     print(sum_clean/args.num_samples, sum_boost/args.num_samples)
