@@ -88,6 +88,7 @@ def main(args):
     eval_model = AutoModelForSequenceClassification.from_pretrained('roberta-base', num_labels=num_labels).cuda()
     model_checkpoint = '/home/xuxi/emo_enhance/model/roberta-base_fineTuneModel.pth'
     eval_model.load_state_dict(torch.load(model_checkpoint))
+    eval_model.eval()
     tk2 = AutoTokenizer.from_pretrained('roberta-base',do_lower_case=True)
     tokenizer = AutoTokenizer.from_pretrained(args.model,do_lower_case=True)
     tokenizer.model_max_length = 512
@@ -165,7 +166,7 @@ def main(args):
         ori_ebd = use_model.encode([sentence])
         #clean_logit = model(torch.LongTensor(input_ids).cuda().unsqueeze(0)).logits[0][label].item()
         ip2 = tk2.encode(sentence, add_special_tokens=True,max_length=256,pad_to_max_length=True)
-        clean_logit = model(input_ids=torch.LongTensor(ip2).unsqueeze(0).cuda())[0].cpu()[label].item()
+        clean_logit = model(input_ids=torch.LongTensor(ip2).unsqueeze(0).cuda())[0][0].cpu()[label].item()
         sum_clean += clean_logit
         print(clean_logit, sentence, sep='\n')
         data_pair = [sentence]
@@ -404,7 +405,7 @@ def main(args):
         print('ADVERSARIAL LOGITS')
         print(ma)   # size 1 x C
         ip2 = tk2.encode(unadv, add_special_tokens=True,max_length=256,pad_to_max_length=True)
-        boost_logit = model(input_ids=torch.LongTensor(ip2).unsqueeze(0).cuda())[0].cpu()[label].item()
+        boost_logit = model(input_ids=torch.LongTensor(ip2).unsqueeze(0).cuda())[0][0].cpu()[label].item()
         sum_boost += sum_boost
         print(boost_logit)
         data.append(data_pair)
