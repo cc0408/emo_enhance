@@ -149,7 +149,7 @@ def main(args):
     for idx in range(args.start_index, end_index):
         
         sentence = 'you are a good girl and i like you'
-        input_ids = tokenizer.encode([sentence])
+        input_ids = tokenizer.encode(sentence)
         label = 3
 
         # input_ids = encoded_dataset[testset_key]['input_ids'][idx]
