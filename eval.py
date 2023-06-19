@@ -46,7 +46,7 @@ if __name__ == "__main__":
         help="sentence for eval")
 
     # Model
-    parser.add_argument("--model", default="bert-base-uncased", type=str,
+    parser.add_argument("--model", default="roberta-base", type=str,
         help="type of model")
     parser.add_argument("--finetune", default=True, type=bool_flag,
         help="load finetuned model")
