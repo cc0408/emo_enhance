@@ -85,7 +85,7 @@ if __name__ == '__main__':
         sentence = dataset['test'][idx]['sentence']
         label = dataset['test'][idx]['label']
         label = int2label[label]
-        messages = [{"role": "user","content": f"The original sentence is :{sentence}. The sentence with stronger {label} emotion and no change in semantics by adding words and replacing words is:"}]
+        messages = [{"role": "user","content": f"The {sentence} that has a stronger {label} emotion and maintains the same semantics by adding words and replacing words is:"}]
         results = make_requests(
             engine="gpt-3.5-turbo-0613",
             messages=messages,
@@ -100,8 +100,7 @@ if __name__ == '__main__':
             best_of=1
         )
         ss = results['response']['choices'][0]['message']['content']
-        if ss.startswith('"'):
-            ss = ss[1:-1]
+        ss = re.sub(r'^"|"$', '', ss)
         res.append([ss])
         if idx % 30 == 0:
             print(idx)
