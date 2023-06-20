@@ -34,7 +34,7 @@ def make_requests(
         try:
             print(messages)
             response = openai.ChatCompletion.create(
-                engine=engine,
+                model=engine,
                 messages=messages,
                 max_tokens=target_length,
                 temperature=temperature,
@@ -72,7 +72,7 @@ if __name__ == '__main__':
     messages = [{"role": "system", "content": "Emotional Booster for Your Plain Text."}, 
                 {"role": "user","content": f"The original sentence is :{sentence}. The sentence with stronger {emo} emotion and no change in semantics by adding words and changing words is:"}]
     results = make_requests(
-        engine="gpt-35-turbo",
+        engine="gpt-3.5-turbo",
         messages=messages,
         temperature=1,
         top_p=1,
