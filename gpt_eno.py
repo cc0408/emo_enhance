@@ -71,7 +71,7 @@ if __name__ == '__main__':
     emo = 'love'
     messages = [{"role": "user","content": f"The original sentence is :{sentence}. The sentence with stronger {emo} emotion and no change in semantics by adding words and changing words is:"}]
     results = make_requests(
-        engine="gpt-35-turbo",
+        engine="gpt-3.5-turbo",
         messages=messages,
         temperature=1,
         top_p=1,
