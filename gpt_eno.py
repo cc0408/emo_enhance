@@ -81,13 +81,13 @@ if __name__ == '__main__':
     dataset = dataset.shuffle(seed=0)
     output_path = '/home/xuxi/emo_enhance/gpt_boost_result.csv'
     res = []
-    for idx in range(0, 1000):
+    for idx in range(0, 5):
         sentence = dataset['test'][idx]['sentence']
         label = dataset['test'][idx]['label']
         label = int2label[label]
         messages = [{"role": "user","content": f"The original sentence is :{sentence}. The sentence with stronger {label} emotion and no change in semantics by adding words and replacing words is:"}]
         results = make_requests(
-            engine="gpt-3.5-turbo",
+            engine="gpt-3.5-turbo-0613",
             messages=messages,
             temperature=1,
             top_p=1,
