@@ -9,9 +9,9 @@ import pandas as pd
 from collections import OrderedDict
 import os
 import openai
-openai.api_type = "azure"
-openai.api_base = "https://flaml-east.openai.azure.com/"
-openai.api_version = "2023-03-15-preview"
+# openai.api_type = "azure"
+# openai.api_base = "https://flaml-east.openai.azure.com/"
+# openai.api_version = "2023-03-15-preview"
 openai.api_key = os.getenv("OPENAI_API_KEY")
 import pandas as pd
 from datetime import datetime
