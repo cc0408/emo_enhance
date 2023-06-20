@@ -99,7 +99,7 @@ if __name__ == '__main__':
             n=1,
             best_of=1
         )
-        res.append([results['response']['choices'][0]['message']['content'].strip('"')])
+        res.append([results['response']['choices'][0]['message']['content'].strip('\"')])
     res = pd.DataFrame(res)
     res.to_csv(output_path, index=False, header=False)
 
