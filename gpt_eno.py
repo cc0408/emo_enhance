@@ -35,14 +35,7 @@ def make_requests(
             print(messages)
             response = openai.ChatCompletion.create(
                 model=engine,
-                messages=messages,
-                max_tokens=target_length,
-                temperature=temperature,
-                top_p=top_p,
-                frequency_penalty=frequency_penalty,
-                presence_penalty=presence_penalty,
-                stop=stop_sequences,
-                n=n,
+                messages=messages
             )
             break
         except openai.error.OpenAIError as e:
@@ -69,8 +62,7 @@ if __name__ == '__main__':
     print('key', openai.api_key)
     sentence = 'You are a good girl and I like you'
     emo = 'love'
-    messages = [{"role": "system", "content": "Emotional Booster for Your Plain Text."}, 
-                {"role": "user","content": f"The original sentence is :{sentence}. The sentence with stronger {emo} emotion and no change in semantics by adding words and changing words is:"}]
+    messages = [{"role": "user","content": f"The original sentence is :{sentence}. The sentence with stronger {emo} emotion and no change in semantics by adding words and changing words is:"}]
     results = make_requests(
         engine="gpt-3.5-turbo",
         messages=messages,
