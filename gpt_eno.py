@@ -69,7 +69,8 @@ if __name__ == '__main__':
     print('key', openai.api_key)
     sentence = 'You are a good girl and I like you'
     emo = 'love'
-    messages = [{"role": "user","content": f"The original sentence is :{sentence}. The sentence with stronger {emo} emotion and no change in semantics by adding words and changing words is:"}]
+    messages = [{"role": "system", "content": "Emotional Booster for Your Plain Text."}, 
+                {"role": "user","content": f"The original sentence is :{sentence}. The sentence with stronger {emo} emotion and no change in semantics by adding words and changing words is:"}]
     results = make_requests(
         engine="gpt-35-turbo",
         messages=messages,
