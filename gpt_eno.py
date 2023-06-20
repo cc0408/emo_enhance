@@ -81,7 +81,7 @@ if __name__ == '__main__':
     dataset = dataset.shuffle(seed=0)
     output_path = '/home/xuxi/emo_enhance/gpt_boost_result.csv'
     res = []
-    for idx in range(0, 3):
+    for idx in range(0, 2):
         sentence = dataset['test'][idx]['sentence']
         label = dataset['test'][idx]['label']
         label = int2label[label]
@@ -99,9 +99,9 @@ if __name__ == '__main__':
             n=1,
             best_of=1
         )
-        res.append([results['response']['choices'][0]['message']['content']])
+        res.append([results['response']['choices'][0]['message']['content'].strip("\"")])
     res = pd.DataFrame(res)
-    res.to_csv(output_path, index=False)
+    res.to_csv(output_path, index=False, header=False)
 
 
 
