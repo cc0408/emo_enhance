@@ -33,7 +33,7 @@ def make_requests(
     backoff_time = 5
     while retry_cnt <= retries:
         try:
-            # print(messages)
+            print(messages)
             response = openai.ChatCompletion.create(
                 model=engine,
                 messages=messages,
