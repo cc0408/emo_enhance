@@ -30,7 +30,7 @@ def make_requests(
     if organization is not None:
         openai.organization = organization
     retry_cnt = 0
-    backoff_time = 30
+    backoff_time = 5
     while retry_cnt <= retries:
         try:
             # print(messages)
@@ -54,8 +54,8 @@ def make_requests(
             else:
                 print(f"Retrying in {backoff_time} seconds...")
                 time.sleep(backoff_time)
-                backoff_time *= 1.5
-            retry_cnt += 1
+                #backoff_time *= 2
+            retry_cnt -= 1
     
     data = {
             "prompt": messages,
@@ -99,7 +99,9 @@ if __name__ == '__main__':
             n=1,
             best_of=1
         )
-        ss = results['response']['choices'][0]['message']['content'].strip('"')
+        ss = results['response']['choices'][0]['message']['content']
+        if ss.startswith('"'):
+            ss = ss[1:-1]
         res.append([ss])
         if idx % 30 == 0:
             print(idx)
