@@ -46,7 +46,7 @@ def main(args):
     model.eval()
     sum_clean = 0
     for idx in range(0, 50):
-        sentence = gpt_data['test'][idx]['sentence']
+        sentence = gpt_data['test'][idx]['sentence'][:-1]
         label = dataset['test'][idx]['label']
         input_ids = tokenizer.encode(sentence, add_special_tokens=True,max_length=256,padding='max_length')
         clean_logit = model(input_ids=torch.LongTensor(input_ids).unsqueeze(0).cuda())[0].cpu()[0][label].item()
