@@ -34,7 +34,7 @@ def make_requests(
         try:
             print(messages)
             response = openai.ChatCompletion.create(
-                engine=engine,
+                model=engine,
                 messages=messages,
                 max_tokens=target_length,
                 temperature=temperature,
