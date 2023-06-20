@@ -45,15 +45,15 @@ def main(args):
     tokenizer = AutoTokenizer.from_pretrained(args.model,do_lower_case=True)
     model.eval()
     sum_clean = 0
-    for idx in range(0, 5):
+    for idx in range(0, 500):
         sentence = gpt_data['test'][idx]['sentence']
         label = dataset['test'][idx]['label']
         input_ids = tokenizer.encode(sentence, add_special_tokens=True,max_length=256,padding='max_length')
-        print(input_ids)
-        print(sentence, tokenizer.decode(input_ids))
+        # print(input_ids)
+        # print(sentence, tokenizer.decode(input_ids))
         clean_logit = model(input_ids=torch.LongTensor(input_ids).unsqueeze(0).cuda())[0].cpu()[0][label].item()
         sum_clean += clean_logit
-    print(sum_clean/5.0)
+    print(sum_clean/500.0)
 
 
 if __name__ == "__main__":
