@@ -411,7 +411,7 @@ def main(args):
         data.append(data_pair)
     print(sum_clean/args.num_samples, sum_boost/args.num_samples)
     datafl = pd.DataFrame(data)
-    #df=datafl.to_csv('sentences_l30t98i200.csv')        
+    df=datafl.to_csv('lamb_500.csv')        
     # print("Token Error Rate: %.4f (over %d tokens)" % (sum(token_errors) / len(token_errors), len(token_errors)))
     '''
     torch.save({
