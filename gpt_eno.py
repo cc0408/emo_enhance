@@ -33,7 +33,7 @@ def make_requests(
     backoff_time = 5
     while retry_cnt <= retries:
         try:
-            print(messages)
+            # print(messages)
             response = openai.ChatCompletion.create(
                 model=engine,
                 messages=messages,
@@ -81,7 +81,7 @@ if __name__ == '__main__':
     dataset = dataset.shuffle(seed=0)
     output_path = '/home/xuxi/emo_enhance/gpt_boost_result.csv'
     res = []
-    for idx in range(0, 5):
+    for idx in range(0, 500):
         sentence = dataset['test'][idx]['sentence']
         label = dataset['test'][idx]['label']
         label = int2label[label]
@@ -99,13 +99,10 @@ if __name__ == '__main__':
             n=1,
             best_of=1
         )
-        ss = results['response']['choices'][0]['message']['content']
-        if ss[0] == '"':
-            ss = ss[1:-1]
+        ss = results['response']['choices'][0]['message']['content'].strip('"')
         res.append([ss])
         if idx % 30 == 0:
             print(idx)
-        print(idx)
     res = pd.DataFrame(res)
     res.to_csv(output_path, index=False, header=False)
 
