@@ -16,6 +16,7 @@ openai.api_key = os.getenv("OPENAI_API_KEY")
 import pandas as pd
 from datetime import datetime
 import time
+from datasets import load_dataset
 random.seed(42)
 
 def make_requests(
@@ -66,23 +67,60 @@ def make_requests(
 
 
 if __name__ == '__main__':
-    print('key', openai.api_key)
-    sentence = 'You are a good girl and I like you'
-    emo = 'love'
-    messages = [{"role": "user","content": f"The original sentence is :{sentence}. The sentence with stronger {emo} emotion and no change in semantics by adding words and changing words is:"}]
-    results = make_requests(
-        engine="gpt-3.5-turbo",
-        messages=messages,
-        temperature=1,
-        top_p=1,
-        max_tokens=150,
-        frequency_penalty=0,
-        presence_penalty=0,
-        stop_sequences=None,
-        logprobs=1,
-        n=1,
-        best_of=1)
-    print(results)
+    int2label = {
+        4: "sadness",
+        2: "joy",
+        0: "anger",
+        1: "fear",
+        3: "love",
+        5: "surprise"
+    }
+    dataset = load_dataset("csv",data_dir="/home/xuxi/emo_enhance/data/",
+                            data_files={'train':'train.csv', 'test':'test.csv'}, 
+                            column_names=["sentence", "label"])
+    dataset = dataset.shuffle(seed=0)
+    output_path = '/home/xuxi/emo_enhance/gpt_boost_result.csv'
+    res = []
+    for idx in range(0, 3):
+        sentence = dataset['test'][idx]['sentence']
+        label = dataset['test'][idx]['label']
+        label = int2label[label]
+        messages = [{"role": "user","content": f"The original sentence is :{sentence}. The sentence with stronger {label} emotion and no change in semantics by adding words and changing words is:"}]
+        results = make_requests(
+            engine="gpt-3.5-turbo",
+            messages=messages,
+            temperature=1,
+            top_p=1,
+            max_tokens=150,
+            frequency_penalty=0,
+            presence_penalty=0,
+            stop_sequences=None,
+            logprobs=1,
+            n=1,
+            best_of=1
+        )
+        res.append([results['response']['choices'][0]['message']['content']])
+    res = pd.DataFrame(res)
+    res.to_csv(output_path, index=False)
+
+
+
+    # sentence = 'You are a good girl and I like you'
+    # emo = 'love'
+    # messages = [{"role": "user","content": f"The original sentence is :{sentence}. The sentence with stronger {emo} emotion and no change in semantics by adding words and changing words is:"}]
+    # results = make_requests(
+    #     engine="gpt-3.5-turbo",
+    #     messages=messages,
+    #     temperature=1,
+    #     top_p=1,
+    #     max_tokens=150,
+    #     frequency_penalty=0,
+    #     presence_penalty=0,
+    #     stop_sequences=None,
+    #     logprobs=1,
+    #     n=1,
+    #     best_of=1)
+    # print(results)
     
     # request_batch_size = 20
     # input_path = '/Users/chanyh/data/EC_number.csv'
