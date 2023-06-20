@@ -100,8 +100,8 @@ if __name__ == '__main__':
             best_of=1
         )
         res.append([results['response']['choices'][0]['message']['content'].strip('\"')])
-        if idx % 50 == 0:
-            print(idx)
+        # if idx % 50 == 0:
+        print(idx)
     res = pd.DataFrame(res)
     res.to_csv(output_path, index=False, header=False)
 
