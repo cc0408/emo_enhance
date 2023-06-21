@@ -99,7 +99,7 @@ def main(args):
     if not pretrained:
         # Load model to attack
         suffix = '_finetune' if args.finetune else ''
-        model_checkpoint = f'/home/xuxi/emo_enhance/model/{args.model}_fineTuneModel.pth'#os.path.join(args.result_folder, '%s_%s%s.pth' % (args.model.replace('/', '-'), args.dataset, suffix))
+        model_checkpoint = f'/home/xuxi/emo_enhance/model/g{args.model}_fineTuneModel.pth'#os.path.join(args.result_folder, '%s_%s%s.pth' % (args.model.replace('/', '-'), args.dataset, suffix))
         print('Loading checkpoint: %s' % model_checkpoint)
         model.load_state_dict(torch.load(model_checkpoint))
         tokenizer.model_max_length = 512
@@ -164,7 +164,7 @@ def main(args):
         # if label != 3:
         #     continue
         print(idx)
-        print('label', int2label[label])
+        print('label', gemo[label])
         #print(sentence)
         ori_ebd = use_model.encode([sentence])
         clean_logit = model(torch.LongTensor(input_ids).cuda().unsqueeze(0)).logits[0][label].item()
