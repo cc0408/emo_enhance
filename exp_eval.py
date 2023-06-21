@@ -94,7 +94,7 @@ def main(args):
     mlm_model = AutoModelForMaskedLM.from_pretrained(args.model, num_labels=num_labels).cuda()
     mlm_model.eval()
     eval_model = AutoModelForSequenceClassification.from_pretrained('roberta-base', num_labels=num_labels).cuda()
-    model_checkpoint = '/home/xuxi/emo_enhance/model/roberta-base_fineTuneModel.pth'
+    model_checkpoint = '/home/xuxi/emo_enhance/model/groberta-base_fineTuneModel.pth'
     eval_model.load_state_dict(torch.load(model_checkpoint))
     eval_model.eval()
     tk2 = AutoTokenizer.from_pretrained('roberta-base',do_lower_case=True)
@@ -104,7 +104,7 @@ def main(args):
     if not pretrained:
         # Load model to attack
         suffix = '_finetune' if args.finetune else ''
-        model_checkpoint = f'/home/xuxi/emo_enhance/model/{args.model}_fineTuneModel.pth'#os.path.join(args.result_folder, '%s_%s%s.pth' % (args.model.replace('/', '-'), args.dataset, suffix))
+        model_checkpoint = f'/home/xuxi/emo_enhance/model/g{args.model}_fineTuneModel.pth'#os.path.join(args.result_folder, '%s_%s%s.pth' % (args.model.replace('/', '-'), args.dataset, suffix))
         print('Loading checkpoint: %s' % model_checkpoint)
         model.load_state_dict(torch.load(model_checkpoint))
         tokenizer.model_max_length = 512
@@ -157,7 +157,7 @@ def main(args):
     assert args.start_index < len(encoded_dataset[testset_key]), 'Starting index %d is larger than dataset length %d' % (args.start_index, len(encoded_dataset[testset_key]))
     end_index = min(args.start_index + args.num_samples, len(encoded_dataset[testset_key]))
     adv_losses, ref_losses, perp_losses, entropies = torch.zeros(end_index - args.start_index, args.num_iters), torch.zeros(end_index - args.start_index, args.num_iters), torch.zeros(end_index - args.start_index, args.num_iters), torch.zeros(end_index - args.start_index, args.num_iters)
-    #print(end_index)
+    print(end_index)
     data = []
     sum_clean = 0.0
     sum_boost = 0.0
@@ -417,9 +417,10 @@ def main(args):
         sum_boost += boost_logit
         print(boost_logit)
         data.append(data_pair)
-    print(sum_clean/args.num_samples, sum_boost/args.num_samples)
+    num = end_index-args.start_index 
+    print(sum_clean/num, sum_boost/num)
     datafl = pd.DataFrame(data)
-    df=datafl.to_csv('lamb_500.csv')        
+    df=datafl.to_csv('lamb_gemo.csv')        
     # print("Token Error Rate: %.4f (over %d tokens)" % (sum(token_errors) / len(token_errors), len(token_errors)))
     '''
     torch.save({
@@ -455,7 +456,7 @@ if __name__ == "__main__":
     parser.add_argument("--data_folder", required=True, type=str,
         help="folder in which to store data")
     parser.add_argument("--dataset", default="dbpedia14", type=str,
-        choices=["dbpedia14", "ag_news", "imdb", "yelp", "mnli", "sst2", "sst5", "emos"],
+        choices=["dbpedia14", "ag_news", "imdb", "yelp", "mnli", "sst2", "sst5", "emos", "gemotion"],
         help="classification dataset to use")
     parser.add_argument("--mnli_option", default="matched", type=str,
         choices=["matched", "mismatched"],
