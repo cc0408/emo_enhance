@@ -75,16 +75,24 @@ if __name__ == '__main__':
         3: "love",
         5: "surprise"
     }
+    gemo = {
+        0 : "anger",
+        1 : "disgust",
+        2 : "fear",
+        3 : "joy",
+        4 : "sadness",
+        5 : "surprise"
+    }
     dataset = load_dataset("csv",data_dir="/home/xuxi/emo_enhance/data/",
-                            data_files={'train':'train.csv', 'test':'test.csv'}, 
+                            data_files={'train':'gtrain.csv', 'gtest':'test.csv'}, 
                             column_names=["sentence", "label"])
     dataset = dataset.shuffle(seed=0)
-    output_path = '/home/xuxi/emo_enhance/gpt_boost_result_v2.csv'
+    output_path = '/home/xuxi/emo_enhance/gpt_gemo_con.csv'
     res = []
     for idx in range(0, 500):
         sentence = dataset['test'][idx]['sentence']
         label = dataset['test'][idx]['label']
-        label = int2label[label]
+        label = gemo[label]
         messages = [{"role": "user","content": f"The original sentence is :{sentence}. The sentence that has a stronger {label} emotion and maintains the same semantics by adding and replacing within three words is:"}]
         results = make_requests(
             engine="gpt-3.5-turbo-0613",
@@ -101,7 +109,7 @@ if __name__ == '__main__':
         )
         ss = results['response']['choices'][0]['message']['content'].strip('"')
         res.append([ss])
-        print(idx, end=' ')
+        print(idx, end=' ',flush=True)
         if idx % 30 == 0:
             print(idx)
     res = pd.DataFrame(res)
