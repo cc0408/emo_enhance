@@ -15,7 +15,7 @@ import pandas as pd # data processing, CSV file I/O (e.g. pd.read_csv)
 # For example, running this (by clicking run or pressing Shift+Enter) will list all files under the input directory
 
 import os
-os.environ["CUDA_VISIBLE_DEVICES"] = '3'
+os.environ["CUDA_VISIBLE_DEVICES"] = '2'
 for dirname, _, filenames in os.walk('/home/xuxi/emo_enhance/data'):
     for filename in filenames:
         print(os.path.join(dirname, filename))
@@ -76,9 +76,9 @@ device = torch.device("cuda")
 # In[6]:
 
 
-df_train = pd.read_csv("/home/xuxi/emo_enhance/data/gtrain.csv", delimiter=';', header=None, names=['sentence','label'])
-df_test = pd.read_csv("/home/xuxi/emo_enhance/data/gtest.csv", delimiter=';', header=None, names=['sentence','label'])
-df_val = pd.read_csv("/home/xuxi/emo_enhance/data/gtest.csv", delimiter=';', header=None, names=['sentence','label'])
+df_train = pd.read_csv("/home/xuxi/emo_enhance/data/gtrain.csv", header=None, names=['sentence','label'])
+df_test = pd.read_csv("/home/xuxi/emo_enhance/data/gtest.csv", header=None, names=['sentence','label'])
+df_val = pd.read_csv("/home/xuxi/emo_enhance/data/gtest.csv", header=None, names=['sentence','label'])
 
 
 # In[7]:
