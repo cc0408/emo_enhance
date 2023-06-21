@@ -191,7 +191,7 @@ type(train_dataloader)
 model = BertForSequenceClassification.from_pretrained("bert-base-uncased", num_labels=6).to(device)
 
 # Parameters:
-lr = 2e-5
+lr = 1e-5
 adam_epsilon = 1e-8
 
 # Number of training epochs (authors recommend between 2 and 4)
