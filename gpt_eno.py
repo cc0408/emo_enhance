@@ -30,7 +30,7 @@ def make_requests(
     if organization is not None:
         openai.organization = organization
     retry_cnt = 0
-    backoff_time = 5
+    backoff_time = 2
     while retry_cnt <= retries:
         try:
             # print(messages)
@@ -79,13 +79,13 @@ if __name__ == '__main__':
                             data_files={'train':'train.csv', 'test':'test.csv'}, 
                             column_names=["sentence", "label"])
     dataset = dataset.shuffle(seed=0)
-    output_path = '/home/xuxi/emo_enhance/gpt_boost_result.csv'
+    output_path = '/home/xuxi/emo_enhance/gpt_boost_result_v2.csv'
     res = []
     for idx in range(0, 500):
         sentence = dataset['test'][idx]['sentence']
         label = dataset['test'][idx]['label']
         label = int2label[label]
-        messages = [{"role": "user","content": f"The original sentence is :{sentence}. The sentence that has a stronger {label} emotion and maintains the same semantics by adding words and replacing words is:"}]
+        messages = [{"role": "user","content": f"The original sentence is :{sentence}. The sentence that has a stronger {label} emotion and maintains the same semantics by adding and replacing within three words is:"}]
         results = make_requests(
             engine="gpt-3.5-turbo-0613",
             messages=messages,
