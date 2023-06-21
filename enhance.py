@@ -437,7 +437,7 @@ if __name__ == "__main__":
     parser.add_argument("--data_folder", required=True, type=str,
         help="folder in which to store data")
     parser.add_argument("--dataset", default="dbpedia14", type=str,
-        choices=["dbpedia14", "ag_news", "imdb", "yelp", "mnli", "sst2", "sst5", "emos"],
+        choices=["dbpedia14", "ag_news", "imdb", "yelp", "mnli", "sst2", "sst5", "emos", "gemotion"],
         help="classification dataset to use")
     parser.add_argument("--mnli_option", default="matched", type=str,
         choices=["matched", "mismatched"],
