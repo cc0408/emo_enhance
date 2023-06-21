@@ -200,7 +200,7 @@ def main(args):
             if len(choice) != 0:
                 add_pos.append(choice[0]+(index,))
         add_pos.sort(reverse=True)
-        add_pos = add_pos[:min(len(add_pos),2)]
+        add_pos = add_pos[:min(len(add_pos),args.alpha)]
         add_pos.sort(key=lambda x:(x[2]),reverse=True)
         inserted_ids = input_ids.copy()
         for tp in add_pos:
@@ -495,6 +495,9 @@ if __name__ == "__main__":
         help="threshold of use")
     parser.add_argument("--k", default=30, type=int,
         help="topk words")
+    parser.add_argument("--alpha", default=2, type=int,
+        help="add number")
+
 
     args = parser.parse_args()
     print_args(args)
