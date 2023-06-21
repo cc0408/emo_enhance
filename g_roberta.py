@@ -201,7 +201,7 @@ num_training_steps = len(train_dataloader)*epochs
 
 ### In Transformers, optimizer and schedules are splitted and instantiated like this:
 from torch.optim import Adam
-optimizer = Adam(model.parameters(), lr=lr,eps=adam_epsilon,correct_bias=False)  # To reproduce BertAdam specific behavior set correct_bias=False
+optimizer = Adam(model.parameters(), lr=lr)  # To reproduce BertAdam specific behavior set correct_bias=False
 scheduler = get_linear_schedule_with_warmup(optimizer, num_warmup_steps=num_warmup_steps, num_training_steps=num_training_steps)  # PyTorch scheduler
 
 
