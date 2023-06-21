@@ -191,7 +191,7 @@ type(train_dataloader)
 model = AutoModelForSequenceClassification.from_pretrained("roberta-base", num_labels=6).to(device)
 
 # Parameters:
-lr = 5e-5
+lr = 1e-6
 adam_epsilon = 1e-8
 
 # Number of training epochs (authors recommend between 2 and 4)
