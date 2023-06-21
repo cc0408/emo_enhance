@@ -84,7 +84,7 @@ if __name__ == '__main__':
         5 : "surprise"
     }
     dataset = load_dataset("csv",data_dir="/home/xuxi/emo_enhance/data/",
-                            data_files={'train':'gtrain.csv', 'gtest':'test.csv'}, 
+                            data_files={'train':'gtrain.csv', 'test':'gtest.csv'}, 
                             column_names=["sentence", "label"])
     dataset = dataset.shuffle(seed=0)
     output_path = '/home/xuxi/emo_enhance/gpt_gemo_con.csv'
