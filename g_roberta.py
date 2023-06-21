@@ -190,7 +190,7 @@ type(train_dataloader)
 model = AutoModelForSequenceClassification.from_pretrained("roberta-base", num_labels=6).to(device)
 
 # Parameters:
-lr = 1e-6
+lr = 1e-5
 adam_epsilon = 1e-8
 
 # Number of training epochs (authors recommend between 2 and 4)
@@ -200,7 +200,8 @@ num_warmup_steps = len(train_dataloader)*1
 num_training_steps = len(train_dataloader)*epochs
 
 ### In Transformers, optimizer and schedules are splitted and instantiated like this:
-optimizer = AdamW(model.parameters(), lr=lr,eps=adam_epsilon,correct_bias=False)  # To reproduce BertAdam specific behavior set correct_bias=False
+from torch.optim import Adam
+optimizer = Adam(model.parameters(), lr=lr,eps=adam_epsilon,correct_bias=False)  # To reproduce BertAdam specific behavior set correct_bias=False
 scheduler = get_linear_schedule_with_warmup(optimizer, num_warmup_steps=num_warmup_steps, num_training_steps=num_training_steps)  # PyTorch scheduler
 
 
