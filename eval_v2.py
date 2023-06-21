@@ -35,11 +35,11 @@ def main(args):
                             column_names=["sentence", "label"])
     dataset = dataset.shuffle(seed=0)
     gpt_data = load_dataset("csv",data_dir="/home/xuxi/emo_enhance/",
-                            data_files={'test':'gpt_boost_result_v2.csv'}, 
+                            data_files={'test':'gpt_gemo_con.csv'}, 
                             column_names=["sentence"])
     num_labels = 6
     model = AutoModelForSequenceClassification.from_pretrained(args.model, num_labels=num_labels).cuda()
-    model_checkpoint = f'/home/xuxi/emo_enhance/model/{args.model}_fineTuneModel.pth'
+    model_checkpoint = f'/home/xuxi/emo_enhance/model/g{args.model}_fineTuneModel.pth'
     print('Loading checkpoint: %s' % model_checkpoint)
     model.load_state_dict(torch.load(model_checkpoint))
     tokenizer = AutoTokenizer.from_pretrained(args.model,do_lower_case=True)
