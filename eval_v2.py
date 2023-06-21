@@ -31,7 +31,7 @@ def main(args):
         5: "surprise"
     }
     dataset = load_dataset("csv",data_dir="/home/xuxi/emo_enhance/data/",
-                            data_files={'train':'train.csv', 'test':'test.csv'}, 
+                            data_files={'train':'train.csv', 'test':'gtest.csv'}, 
                             column_names=["sentence", "label"])
     dataset = dataset.shuffle(seed=0)
     gpt_data = load_dataset("csv",data_dir="/home/xuxi/emo_enhance/",
