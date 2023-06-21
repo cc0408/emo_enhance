@@ -15,7 +15,7 @@ import pandas as pd # data processing, CSV file I/O (e.g. pd.read_csv)
 # For example, running this (by clicking run or pressing Shift+Enter) will list all files under the input directory
 
 import os
-os.environ["CUDA_VISIBLE_DEVICES"] = '2'
+os.environ["CUDA_VISIBLE_DEVICES"] = '3'
 for dirname, _, filenames in os.walk('/home/xuxi/emo_enhance/data'):
     for filename in filenames:
         print(os.path.join(dirname, filename))
