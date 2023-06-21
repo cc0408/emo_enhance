@@ -169,7 +169,7 @@ def main(args):
         # if label != 3:
         #     continue
         print(idx)
-        print('label', int2label[label])
+        print('label', gemo[label])
         #print(sentence)
         ori_ebd = use_model.encode([sentence])
         #clean_logit = model(torch.LongTensor(input_ids).cuda().unsqueeze(0)).logits[0][label].item()
