@@ -81,7 +81,7 @@ if __name__ == '__main__':
     dataset = dataset.shuffle(seed=0)
     output_path = '/home/xuxi/emo_enhance/gpt_boost_result_v2.csv'
     res = []
-    for idx in range(0, 500):
+    for idx in range(0, 5):
         sentence = dataset['test'][idx]['sentence']
         label = dataset['test'][idx]['label']
         label = int2label[label]
