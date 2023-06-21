@@ -162,7 +162,7 @@ train_masks = torch.tensor(train_masks)
 validation_masks = torch.tensor(validation_masks)
 
 # Select a batch size for training. For fine-tuning BERT on a specific task, the authors recommend a batch size of 16 or 32
-batch_size = 32
+batch_size = 100
 
 # Create an iterator of our data with torch DataLoader. This helps save on memory during training because, unlike a for loop, 
 # with an iterator the entire dataset does not need to be loaded into memory
@@ -194,7 +194,7 @@ lr = 1e-5
 adam_epsilon = 1e-8
 
 # Number of training epochs (authors recommend between 2 and 4)
-epochs = 5
+epochs = 4
 
 num_warmup_steps = len(train_dataloader)*1
 num_training_steps = len(train_dataloader)*epochs
