@@ -105,7 +105,6 @@ df['label_enc'] = labelencoder.fit_transform(df['label'])
 
 
 df[['label','label_enc']].drop_duplicates(keep='first')
-print(df[['label','label_enc']])
 
 # In[11]:
 

@@ -65,6 +65,14 @@ def main(args):
         3: "love",
         5: "surprise"
     }
+    gemo = {
+        0 : "anger",
+        1 : "disgust",
+        2 : "fear",
+        3 : "joy",
+        4 : "sadness",
+        5 : "surprise"
+    }
     punc = string.punctuation
 
     pretrained = args.model.startswith('textattack')
