@@ -47,7 +47,7 @@ def main(args):
     sum_clean = 0
     for idx in range(1, 61):
         sentence = gpt_data['test'][idx]['gpt']
-        label = dataset['test'][idx]['label']
+        label = gpt_data['test'][idx]['label']
         label = int2label[label]
         input_ids = tokenizer.encode(sentence, add_special_tokens=True,max_length=256,padding='max_length')
         # print(input_ids)
