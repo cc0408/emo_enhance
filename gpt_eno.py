@@ -93,12 +93,12 @@ if __name__ == '__main__':
     output_path = '/home/xuxi/emo_enhance/gpt_kaggle_v3.csv'
     res = [['label','original','lamb','gpt']]
     dnum = {}
-    for idx in range(0, 3):
+    for idx in range(0, 500):
         sentence = dataset['test'][idx]['sentence']
         label = dataset['test'][idx]['label']
         la = lamb['test'][idx+1]['la']
         ori = lamb['test'][idx+1]['ori']
-        print(ori,sentence)
+        # print(ori,sentence)
         tmp = dnum.get(label, 0)
         if tmp>9:
             continue
