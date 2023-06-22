@@ -84,10 +84,10 @@ if __name__ == '__main__':
                             data_files={'test':'lamb_500.csv'}, 
                             column_names=["id", "ori", "la"])
     dataset = dataset.shuffle(seed=0)
-    output_path = '/home/xuxi/emo_enhance/davinci3_kaggle_v3.csv'
+    output_path = '/home/xuxi/emo_enhance/davinci3_kaggle.csv'
     res = [['label','original','lamb','davinci3']]
     dnum = {}
-    for idx in range(0, 10):
+    for idx in range(0, 500):
         sentence = dataset['test'][idx]['sentence']
         label = dataset['test'][idx]['label']
         la = lamb['test'][idx+1]['la']
@@ -114,7 +114,7 @@ if __name__ == '__main__':
         )
         ss = results['response'].choices[0].text.strip()
         res.append([label, sentence, la, ss])
-        print(sentence, ss,'',sep='\n')
+        # print(sentence, ss,'',sep='\n')
         print(idx, end=' ',flush=True)
         if idx % 30 == 0:
             print('')
