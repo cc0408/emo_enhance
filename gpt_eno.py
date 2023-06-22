@@ -93,12 +93,12 @@ if __name__ == '__main__':
         sentence = dataset['test'][idx]['sentence']
         label = dataset['test'][idx]['label']
         label = int2label[label]
-        messages = [{"role": "system", "content": "You are asked to edit the text by changing no more than 3 words so that the two sentences are mostly the same."},
+        messages = [{"role": "system", "content": "You are asked to edit the text by changing no more than 3 words so that the output sentence is very similar to original sentence."},
                     {"role": "user","content": f"The original sentence is :{sentence}. The sentence that has a stronger {label} emotion and maintains the same semantics by adding and replacing within three words is:"}]
         results = make_requests(
             engine="gpt-3.5-turbo-0613",
             messages=messages,
-            temperature=0.2,
+            temperature=1,
             top_p=1,
             max_tokens=150,
             frequency_penalty=0,
