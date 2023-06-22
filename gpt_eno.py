@@ -114,7 +114,7 @@ if __name__ == '__main__':
             best_of=1
         )
         ss = results['response']['choices'][0]['message']['content'].strip('"')
-        res.append([ss])
+        res.append([label, sentence, None, ss])
         # print(sentence, ss,'',sep='\n')
         print(idx, end=' ',flush=True)
         if idx % 30 == 0:
