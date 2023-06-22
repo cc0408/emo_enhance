@@ -37,13 +37,13 @@ def make_requests(
             response = openai.ChatCompletion.create(
                 model=engine,
                 messages=messages,
-                max_tokens=target_length,
-                temperature=temperature,
-                top_p=top_p,
-                frequency_penalty=frequency_penalty,
-                presence_penalty=presence_penalty,
-                stop=stop_sequences,
-                n=n,
+                # max_tokens=target_length,
+                # temperature=temperature,
+                # top_p=top_p,
+                # frequency_penalty=frequency_penalty,
+                # presence_penalty=presence_penalty,
+                # stop=stop_sequences,
+                # n=n,
             )
             break
         except openai.error.OpenAIError as e:
@@ -89,10 +89,10 @@ if __name__ == '__main__':
     dataset = dataset.shuffle(seed=0)
     output_path = '/home/xuxi/emo_enhance/gpt_gemo_v2.csv'
     res = []
-    for idx in range(0, 10):
+    for idx in range(5, 10):
         sentence = dataset['test'][idx]['sentence']
         label = dataset['test'][idx]['label']
-        label = gemo[label]
+        label = int2label[label]
         messages = [{"role": "system", "content": "You are asked to edit the text by changing no more than 3 words so that the two sentences are mostly the same."},
                     {"role": "user","content": f"The original sentence is :{sentence}. The sentence that has a stronger {label} emotion and maintains the same semantics by adding and replacing within three words is:"}]
         results = make_requests(
