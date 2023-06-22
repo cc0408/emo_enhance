@@ -37,13 +37,13 @@ def make_requests(
             response = openai.ChatCompletion.create(
                 model=engine,
                 messages=messages,
-                # max_tokens=target_length,
-                # temperature=temperature,
-                # top_p=top_p,
-                # frequency_penalty=frequency_penalty,
-                # presence_penalty=presence_penalty,
-                # stop=stop_sequences,
-                # n=n,
+                max_tokens=target_length,
+                temperature=temperature,
+                top_p=top_p,
+                frequency_penalty=frequency_penalty,
+                presence_penalty=presence_penalty,
+                stop=stop_sequences,
+                n=n,
             )
             break
         except openai.error.OpenAIError as e:
