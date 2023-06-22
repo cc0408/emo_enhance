@@ -110,7 +110,8 @@ if __name__ == '__main__':
         )
         ss = results['response']['choices'][0]['message']['content'].strip('"')
         res.append([ss])
-        print(idx, end=' ',flush=True)
+        print(ss)
+        # print(idx, end=' ',flush=True)
         if idx % 30 == 0:
             print('')
     res = pd.DataFrame(res)
