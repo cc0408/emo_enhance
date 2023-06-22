@@ -93,7 +93,7 @@ if __name__ == '__main__':
         sentence = dataset['test'][idx]['sentence']
         label = dataset['test'][idx]['label']
         label = gemo[label]
-        messages = [{"role": "system", "content": "You are asked to edit the text and change it within 3 words so that the difference between the two sentences is minimal."},
+        messages = [{"role": "system", "content": "You are asked to edit the text and change it no more than 3 words so that the two sentences are mostly the same."},
                     {"role": "user","content": f"The original sentence is :{sentence}. The sentence that has a stronger {label} emotion and maintains the same semantics by adding and replacing within three words is:"}]
         results = make_requests(
             engine="gpt-3.5-turbo-0613",
