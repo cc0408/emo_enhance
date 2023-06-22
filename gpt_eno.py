@@ -84,7 +84,7 @@ if __name__ == '__main__':
         5 : "surprise"
     }
     dataset = load_dataset("csv",data_dir="/home/xuxi/emo_enhance/data/",
-                            data_files={'train':'gtrain.csv', 'test':'gtest.csv'}, 
+                            data_files={'train':'train.csv', 'test':'test.csv'}, 
                             column_names=["sentence", "label"])
     dataset = dataset.shuffle(seed=0)
     output_path = '/home/xuxi/emo_enhance/gpt_gemo_v2.csv'
@@ -110,7 +110,7 @@ if __name__ == '__main__':
         )
         ss = results['response']['choices'][0]['message']['content'].strip('"')
         res.append([ss])
-        print(ss)
+        print(sentence, ss)
         # print(idx, end=' ',flush=True)
         if idx % 30 == 0:
             print('')
