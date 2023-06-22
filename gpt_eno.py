@@ -89,7 +89,7 @@ if __name__ == '__main__':
     dataset = dataset.shuffle(seed=0)
     output_path = '/home/xuxi/emo_enhance/gpt_gemo_v2.csv'
     res = []
-    for idx in range(0, 2):
+    for idx in range(0, 3):
         sentence = dataset['test'][idx]['sentence']
         label = dataset['test'][idx]['label']
         label = gemo[label]
@@ -110,7 +110,7 @@ if __name__ == '__main__':
         )
         ss = results['response']['choices'][0]['message']['content'].strip('"')
         res.append([ss])
-        print(sentence, ss)
+        print(sentence, ss,sep='\n')
         # print(idx, end=' ',flush=True)
         if idx % 30 == 0:
             print('')
