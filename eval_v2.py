@@ -47,7 +47,7 @@ def main(args):
                             column_names=['label','original','lamb','gpt'])
     num_labels = 6
     model = AutoModelForSequenceClassification.from_pretrained(args.model, num_labels=num_labels).cuda()
-    model_checkpoint = f'/home/xuxi/emo_enhance/model/g{args.model}_fineTuneModel.pth'
+    model_checkpoint = f'/home/xuxi/emo_enhance/model/{args.model}_fineTuneModel.pth'
     print('Loading checkpoint: %s' % model_checkpoint)
     model.load_state_dict(torch.load(model_checkpoint))
     tokenizer = AutoTokenizer.from_pretrained(args.model,do_lower_case=True)
