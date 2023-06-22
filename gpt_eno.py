@@ -86,15 +86,21 @@ if __name__ == '__main__':
     dataset = load_dataset("csv",data_dir="/home/xuxi/emo_enhance/data/",
                             data_files={'train':'train.csv', 'test':'test.csv'}, 
                             column_names=["sentence", "label"])
+    lamb = load_dataset("csv",data_dir="/home/xuxi/emo_enhance",
+                            data_files={'test':'lamb_500.csv'}, 
+                            column_names=["id", "ori", "la"])
     dataset = dataset.shuffle(seed=0)
     output_path = '/home/xuxi/emo_enhance/gpt_kaggle_v3.csv'
-    res = []
+    res = [['label','original','lamb','gpt']]
     dnum = {}
-    for idx in range(0, 500):
+    for idx in range(0, 3):
         sentence = dataset['test'][idx]['sentence']
         label = dataset['test'][idx]['label']
+        la = lamb['test'][idx+1]['la']
+        ori = lamb['test'][idx+1]['ori']
+        print(ori,sentence)
         tmp = dnum.get(label, 0)
-        if tmp>10:
+        if tmp>9:
             continue
         dnum[label]=tmp+1
         label = int2label[label]
@@ -114,7 +120,7 @@ if __name__ == '__main__':
             best_of=1
         )
         ss = results['response']['choices'][0]['message']['content'].strip('"')
-        res.append([label, sentence, None, ss])
+        res.append([label, sentence, la, ss])
         # print(sentence, ss,'',sep='\n')
         print(idx, end=' ',flush=True)
         if idx % 30 == 0:
