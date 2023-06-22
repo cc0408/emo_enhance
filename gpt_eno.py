@@ -87,13 +87,14 @@ if __name__ == '__main__':
                             data_files={'train':'gtrain.csv', 'test':'gtest.csv'}, 
                             column_names=["sentence", "label"])
     dataset = dataset.shuffle(seed=0)
-    output_path = '/home/xuxi/emo_enhance/gpt_gemo_con.csv'
+    output_path = '/home/xuxi/emo_enhance/gpt_gemo_v2.csv'
     res = []
-    for idx in range(0, 500):
+    for idx in range(0, 2):
         sentence = dataset['test'][idx]['sentence']
         label = dataset['test'][idx]['label']
         label = gemo[label]
-        messages = [{"role": "user","content": f"The original sentence is :{sentence}. The sentence that has a stronger {label} emotion and maintains the same semantics by adding and replacing within three words is:"}]
+        messages = [{"role": "system", "content": "You are asked to edit the text and change it within 3 words so that the difference between the two sentences is minimal."},
+                    {"role": "user","content": f"The original sentence is :{sentence}. The sentence that has a stronger {label} emotion and maintains the same semantics by adding and replacing within three words is:"}]
         results = make_requests(
             engine="gpt-3.5-turbo-0613",
             messages=messages,
@@ -111,9 +112,9 @@ if __name__ == '__main__':
         res.append([ss])
         print(idx, end=' ',flush=True)
         if idx % 30 == 0:
-            print(idx)
+            print('')
     res = pd.DataFrame(res)
-    res.to_csv(output_path, index=False, header=False)
+    # res.to_csv(output_path, index=False, header=False)
 
 
 
