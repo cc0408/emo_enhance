@@ -34,7 +34,7 @@ def make_requests(
     while retry_cnt <= retries:
         try:
             # print(messages)
-            response = openai.ChatCompletion.create(
+            response = openai.Completion.create(
                 engine=engine,
                 prompt=messages,
                 max_tokens=target_length,
@@ -112,7 +112,7 @@ if __name__ == '__main__':
             n=1,
             best_of=1
         )
-        ss = results['response']['choices'][0]['message']['content'].strip('"')
+        ss = results['response'].choices[0].text.strip()
         res.append([label, sentence, la, ss])
         print(sentence, ss,'',sep='\n')
         print(idx, end=' ',flush=True)
