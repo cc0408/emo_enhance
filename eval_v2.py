@@ -30,6 +30,14 @@ def main(args):
         3: "love",
         5: "surprise"
     }
+    label2int = {
+        "sadness": 4,
+        "joy": 2,
+        "anger": 0,
+        "fear": 1,
+        "love": 3,
+        "surprise": 5
+    }
     dataset = load_dataset("csv",data_dir="/home/xuxi/emo_enhance/data/",
                             data_files={'train':'train.csv', 'test':'gtest.csv'}, 
                             column_names=["sentence", "label"])
@@ -46,9 +54,9 @@ def main(args):
     model.eval()
     sum_clean = 0
     for idx in range(1, 61):
-        sentence = gpt_data['test'][idx]['gpt']
+        sentence = gpt_data['test'][idx]['lamb']
         label = gpt_data['test'][idx]['label']
-        label = int2label[label]
+        label = label2int[label]
         input_ids = tokenizer.encode(sentence, add_special_tokens=True,max_length=256,padding='max_length')
         # print(input_ids)
         # print(sentence, tokenizer.decode(input_ids))
