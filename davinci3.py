@@ -87,7 +87,7 @@ if __name__ == '__main__':
     output_path = '/home/xuxi/emo_enhance/davinci3_kaggle_v3.csv'
     res = [['label','original','lamb','davinci3']]
     dnum = {}
-    for idx in range(0, 3):
+    for idx in range(0, 10):
         sentence = dataset['test'][idx]['sentence']
         label = dataset['test'][idx]['label']
         la = lamb['test'][idx+1]['la']
