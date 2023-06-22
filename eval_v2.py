@@ -35,8 +35,8 @@ def main(args):
                             column_names=["sentence", "label"])
     dataset = dataset.shuffle(seed=0)
     gpt_data = load_dataset("csv",data_dir="/home/xuxi/emo_enhance/",
-                            data_files={'test':'gpt_gemo_con.csv'}, 
-                            column_names=["sentence"])
+                            data_files={'test':'gpt_kaggle_v3.csv'}, 
+                            column_names=['label','original','lamb','gpt'])
     num_labels = 6
     model = AutoModelForSequenceClassification.from_pretrained(args.model, num_labels=num_labels).cuda()
     model_checkpoint = f'/home/xuxi/emo_enhance/model/g{args.model}_fineTuneModel.pth'
@@ -45,15 +45,16 @@ def main(args):
     tokenizer = AutoTokenizer.from_pretrained(args.model,do_lower_case=True)
     model.eval()
     sum_clean = 0
-    for idx in range(0, 500):
-        sentence = gpt_data['test'][idx]['sentence']
+    for idx in range(1, 61):
+        sentence = gpt_data['test'][idx]['gpt']
         label = dataset['test'][idx]['label']
+        label = int2label[label]
         input_ids = tokenizer.encode(sentence, add_special_tokens=True,max_length=256,padding='max_length')
         # print(input_ids)
         # print(sentence, tokenizer.decode(input_ids))
         clean_logit = model(input_ids=torch.LongTensor(input_ids).unsqueeze(0).cuda())[0].cpu()[0][label].item()
         sum_clean += clean_logit
-    print(sum_clean/500.0)
+    print(sum_clean/60.0)
 
 
 if __name__ == "__main__":
