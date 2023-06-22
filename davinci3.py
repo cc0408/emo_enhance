@@ -78,13 +78,13 @@ if __name__ == '__main__':
         5 : "surprise"
     }
     dataset = load_dataset("csv",data_dir="/home/xuxi/emo_enhance/data/",
-                            data_files={'train':'train.csv', 'test':'test.csv'}, 
+                            data_files={'train':'gtrain.csv', 'test':'gtest.csv'}, 
                             column_names=["sentence", "label"])
     lamb = load_dataset("csv",data_dir="/home/xuxi/emo_enhance",
-                            data_files={'test':'lamb_500.csv'}, 
+                            data_files={'test':'lamb_gemo.csv'}, 
                             column_names=["id", "ori", "la"])
     dataset = dataset.shuffle(seed=0)
-    output_path = '/home/xuxi/emo_enhance/davinci3_kaggle.csv'
+    output_path = '/home/xuxi/emo_enhance/davinci3_gemo.csv'
     res = [['label','original','lamb','davinci3']]
     dnum = {}
     for idx in range(0, 500):
@@ -97,7 +97,7 @@ if __name__ == '__main__':
         if tmp>9:
             continue
         dnum[label]=tmp+1
-        label = int2label[label]
+        label = gemo[label]
         messages = f"You are asked to edit the text by changing no more than 3 words so that the two sentences are mostly the same.  Changes should be as small as possible to go undetected. The original sentence is :{sentence}. The sentence that has a stronger {label} emotion and maintains the same semantics by adding and replacing within three words is:"
         results = make_requests(
             engine="text-davinci-003",

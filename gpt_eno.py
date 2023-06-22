@@ -90,8 +90,8 @@ if __name__ == '__main__':
                             data_files={'test':'lamb_500.csv'}, 
                             column_names=["id", "ori", "la"])
     dataset = dataset.shuffle(seed=0)
-    output_path = '/home/xuxi/emo_enhance/davinci3_kaggle_v3.csv'
-    res = [['label','original','lamb','davinci3']]
+    output_path = '/home/xuxi/emo_enhance/gpt_kaggle_v3.csv'
+    res = [['label','original','lamb','gpt']]
     dnum = {}
     for idx in range(0, 3):
         sentence = dataset['test'][idx]['sentence']
@@ -107,7 +107,7 @@ if __name__ == '__main__':
         messages = [{"role": "system", "content": "You are asked to edit the text by changing no more than 3 words so that the two sentences are mostly the same. Changes should be as small as possible to go undetected."},
                     {"role": "user","content": f"The original sentence is :{sentence}. The sentence that has a stronger {label} emotion and maintains the same semantics by adding and replacing within three words is:"}]
         results = make_requests(
-            engine="text-davinci-003",
+            engine="gpt-3.5-turbo-0613",
             messages=messages,
             temperature=1,
             top_p=1,
@@ -121,7 +121,7 @@ if __name__ == '__main__':
         )
         ss = results['response']['choices'][0]['message']['content'].strip('"')
         res.append([label, sentence, la, ss])
-        print(sentence, ss,'',sep='\n')
+        # print(sentence, ss,'',sep='\n')
         print(idx, end=' ',flush=True)
         if idx % 30 == 0:
             print('')
