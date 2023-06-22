@@ -84,16 +84,16 @@ if __name__ == '__main__':
         5 : "surprise"
     }
     dataset = load_dataset("csv",data_dir="/home/xuxi/emo_enhance/data/",
-                            data_files={'train':'gtrain.csv', 'test':'gtest.csv'}, 
+                            data_files={'train':'train.csv', 'test':'test.csv'}, 
                             column_names=["sentence", "label"])
     lamb = load_dataset("csv",data_dir="/home/xuxi/emo_enhance",
-                            data_files={'test':'lamb_gemo.csv'}, 
+                            data_files={'test':'lamb_500.csv'}, 
                             column_names=["id", "ori", "la"])
     dataset = dataset.shuffle(seed=0)
-    output_path = '/home/xuxi/emo_enhance/gpt_gemo_v3.csv'
-    res = [['label','original','lamb','gpt']]
+    output_path = '/home/xuxi/emo_enhance/davinci3_kaggle_v3.csv'
+    res = [['label','original','lamb','davinci3']]
     dnum = {}
-    for idx in range(0, 500):
+    for idx in range(0, 3):
         sentence = dataset['test'][idx]['sentence']
         label = dataset['test'][idx]['label']
         la = lamb['test'][idx+1]['la']
@@ -103,11 +103,11 @@ if __name__ == '__main__':
         if tmp>9:
             continue
         dnum[label]=tmp+1
-        label = gemo[label]
+        label = int2label[label]
         messages = [{"role": "system", "content": "You are asked to edit the text by changing no more than 3 words so that the two sentences are mostly the same. Changes should be as small as possible to go undetected."},
                     {"role": "user","content": f"The original sentence is :{sentence}. The sentence that has a stronger {label} emotion and maintains the same semantics by adding and replacing within three words is:"}]
         results = make_requests(
-            engine="gpt-3.5-turbo-0613",
+            engine="text-davinci-003",
             messages=messages,
             temperature=1,
             top_p=1,
@@ -121,7 +121,7 @@ if __name__ == '__main__':
         )
         ss = results['response']['choices'][0]['message']['content'].strip('"')
         res.append([label, sentence, la, ss])
-        # print(sentence, ss,'',sep='\n')
+        print(sentence, ss,'',sep='\n')
         print(idx, end=' ',flush=True)
         if idx % 30 == 0:
             print('')
