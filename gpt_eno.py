@@ -98,7 +98,7 @@ if __name__ == '__main__':
         results = make_requests(
             engine="gpt-3.5-turbo-0613",
             messages=messages,
-            temperature=0.5,
+            temperature=0.2,
             top_p=1,
             max_tokens=150,
             frequency_penalty=0,
