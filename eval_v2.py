@@ -43,7 +43,7 @@ def main(args):
                             column_names=["sentence", "label"])
     dataset = dataset.shuffle(seed=0)
     gpt_data = load_dataset("csv",data_dir="/home/xuxi/emo_enhance/",
-                            data_files={'test':'kaggle_v2.csv'}, 
+                            data_files={'test':'gemo500.csv'}, 
                             column_names=['label','original','lamb','gpt','davinci3'])
     num_labels = 6
     model = AutoModelForSequenceClassification.from_pretrained(args.model, num_labels=num_labels).cuda()
@@ -53,8 +53,8 @@ def main(args):
     tokenizer = AutoTokenizer.from_pretrained(args.model,do_lower_case=True)
     model.eval()
     sum_clean = 0
-    for idx in range(1, 61):
-        sentence = gpt_data['test'][idx]['original']
+    for idx in range(1, 500):
+        sentence = gpt_data['test'][idx]['davinci3']
         label = gpt_data['test'][idx]['label']
         label = label2int[label]
         input_ids = tokenizer.encode(sentence, add_special_tokens=True,max_length=256,padding='max_length')
@@ -62,7 +62,7 @@ def main(args):
         # print(sentence, tokenizer.decode(input_ids))
         clean_logit = model(input_ids=torch.LongTensor(input_ids).unsqueeze(0).cuda())[0].cpu()[0][label].item()
         sum_clean += clean_logit
-    print(sum_clean/60.0)
+    print(sum_clean/500.0)
 
 
 if __name__ == "__main__":
