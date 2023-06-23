@@ -102,6 +102,7 @@ def make_comp(
         }
     return data
 
+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
 
 
 if __name__ == '__main__':
@@ -128,7 +129,7 @@ if __name__ == '__main__':
                             data_files={'test':'lamb_gemo.csv'}, 
                             column_names=["id", "ori", "la"])
     dataset = dataset.shuffle(seed=0)
-    output_path = '/home/xuxi/emo_enhance/kaggle_500.csv'
+    output_path = '/home/xuxi/emo_enhance/gemo_500.csv'
     res = [['label','original','lamb','gpt', 'davinci3']]
     dnum = {}
     for idx in range(0, 500):
