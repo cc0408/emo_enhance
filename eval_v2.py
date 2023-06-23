@@ -62,7 +62,7 @@ def main(args):
     model.eval()
     sum_clean = 0
     for idx in range(1, 501):
-        sentence = gpt_data['test'][idx][grgs.method]
+        sentence = gpt_data['test'][idx][args.method]
         label = gpt_data['test'][idx]['label']
         label = gemo[label]
         input_ids = tokenizer.encode(sentence, add_special_tokens=True,max_length=256,padding='max_length')
