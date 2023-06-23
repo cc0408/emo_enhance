@@ -43,8 +43,8 @@ def main(args):
                             column_names=["sentence", "label"])
     dataset = dataset.shuffle(seed=0)
     gpt_data = load_dataset("csv",data_dir="/home/xuxi/emo_enhance/",
-                            data_files={'test':'gpt_kaggle_v3.csv'}, 
-                            column_names=['label','original','lamb','gpt'])
+                            data_files={'test':'davinci3_kaggle.csv'}, 
+                            column_names=['label','original','lamb','davinci3'])
     num_labels = 6
     model = AutoModelForSequenceClassification.from_pretrained(args.model, num_labels=num_labels).cuda()
     model_checkpoint = f'/home/xuxi/emo_enhance/model/{args.model}_fineTuneModel.pth'
@@ -54,7 +54,7 @@ def main(args):
     model.eval()
     sum_clean = 0
     for idx in range(1, 61):
-        sentence = gpt_data['test'][idx]['original']
+        sentence = gpt_data['test'][idx]['davinci3']
         label = gpt_data['test'][idx]['label']
         label = label2int[label]
         input_ids = tokenizer.encode(sentence, add_special_tokens=True,max_length=256,padding='max_length')
