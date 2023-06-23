@@ -9,9 +9,9 @@ import pandas as pd
 from collections import OrderedDict
 import os
 import openai
-openai.api_type = "azure"
-openai.api_base = "https://flaml-east.openai.azure.com/"
-openai.api_version = "2023-03-15-preview"
+# openai.api_type = "azure"
+# openai.api_base = "https://flaml-east.openai.azure.com/"
+# openai.api_version = "2023-03-15-preview"
 openai.api_key = os.getenv("OPENAI_API_KEY")
 import pandas as pd
 from datetime import datetime
@@ -68,7 +68,7 @@ if __name__ == '__main__':
     request_batch_size = 20
     input_path = '/home/xuxi/emo_enhance/kaggle_v2.csv'
     input_file = pd.read_csv(input_path, encoding='latin-1')
-    print(input_file)
+    # print(input_file)
     original = input_file['original']
     lamb = input_file['lamb']
     label = input_file['label']
@@ -80,7 +80,7 @@ if __name__ == '__main__':
         input_file.to_csv(output_path)
         output_file = pd.read_csv(output_path)
     start=1
-    print(output_file['is_better'])
+    # print(output_file['is_better'])
     for start in range(len(output_file)):
     
         if output_file.iloc[start]['is_better'] != '':
