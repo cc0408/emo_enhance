@@ -171,7 +171,7 @@ if __name__ == '__main__':
         )
         da3 = results['response'].choices[0].text.strip()
 
-        # print(sentence, gpt, '',sep='\n')
+        print(sentence, gpt, '',sep='\n')
         res.append([label, sentence, la, gpt, da3])
         print(idx, end=' ',flush=True)
         if idx % 30 == 0:
