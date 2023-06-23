@@ -38,6 +38,7 @@ def load_data(args):
         dataset = load_dataset("csv",data_dir="/home/xuxi/emo_enhance/data/",
                                          data_files={'train':'train.csv', 'test':'test.csv'}, 
                                          column_names=["sentence", "label"])
+        num_labels = 6
     elif args.dataset == "gemotion":
         dataset = load_dataset("csv",data_dir="/home/xuxi/emo_enhance/data/",
                                          data_files={'train':'gtrain.csv', 'test':'gtest.csv'}, 
