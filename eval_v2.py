@@ -43,7 +43,7 @@ def main(args):
                             column_names=["sentence", "label"])
     dataset = dataset.shuffle(seed=0)
     gpt_data = load_dataset("csv",data_dir="/home/xuxi/emo_enhance/",
-                            data_files={'test':'gemo500.csv'}, 
+                            data_files={'test':'gemo_500.csv'}, 
                             column_names=['label','original','lamb','gpt','davinci3'])
     num_labels = 6
     model = AutoModelForSequenceClassification.from_pretrained(args.model, num_labels=num_labels).cuda()
