@@ -33,7 +33,7 @@ def make_requests(
     while retry_cnt <= retries:
         try:
             response = openai.ChatCompletion.create(
-                engine=engine,
+                model=engine,
                 messages=messages,
                 max_tokens=target_length,
                 temperature=temperature,
