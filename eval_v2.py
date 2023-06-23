@@ -55,14 +55,14 @@ def main(args):
                             column_names=['label','original','lamb','gpt','davinci3'])
     num_labels = 6
     model = AutoModelForSequenceClassification.from_pretrained(args.model, num_labels=num_labels).cuda()
-    model_checkpoint = f'/home/xuxi/emo_enhance/model/groberta-large_fineTuneModel.pth'
+    model_checkpoint = f'/home/xuxi/emo_enhance/model/g{args.model}_fineTuneModel.pth'
     print('Loading checkpoint: %s' % model_checkpoint)
     model.load_state_dict(torch.load(model_checkpoint))
     tokenizer = AutoTokenizer.from_pretrained(args.model,do_lower_case=True)
     model.eval()
     sum_clean = 0
     for idx in range(1, 501):
-        sentence = gpt_data['test'][idx]['davinci3']
+        sentence = gpt_data['test'][idx][grgs.method]
         label = gpt_data['test'][idx]['label']
         label = gemo[label]
         input_ids = tokenizer.encode(sentence, add_special_tokens=True,max_length=256,padding='max_length')
@@ -101,7 +101,7 @@ if __name__ == "__main__":
         help="sentence for eval")
 
     # Model
-    parser.add_argument("--model", default="roberta-base", type=str,
+    parser.add_argument("--model", default="roberta-large", type=str,
         help="type of model")
     parser.add_argument("--finetune", default=True, type=bool_flag,
         help="load finetuned model")
@@ -138,6 +138,8 @@ if __name__ == "__main__":
         help="print loss every x iterations")
     parser.add_argument("--gumbel_samples", default=100, type=int,
         help="number of gumbel samples; if 0, use argmax")
+    parser.add_argument("--method", default='lamb', type=str,
+        help="method used")
 
     args = parser.parse_args()
     print_args(args)
