@@ -61,7 +61,7 @@ def main(args):
     tokenizer = AutoTokenizer.from_pretrained(args.model,do_lower_case=True)
     model.eval()
     sum_clean = 0
-    for idx in range(0, 500):
+    for idx in range(1, 501):
         sentence = gpt_data['test'][idx]['davinci3']
         label = gpt_data['test'][idx]['label']
         label = label2int[label]
