@@ -129,7 +129,7 @@ if __name__ == '__main__':
     output_path = '/home/xuxi/emo_enhance/kaggle_v2.csv'
     res = [['label','original','lamb','gpt', 'davinci3']]
     dnum = {}
-    for idx in range(0, 500):
+    for idx in range(0, 5):
         sentence = dataset['test'][idx]['sentence']
         label = dataset['test'][idx]['label']
         la = lamb['test'][idx+1]['la']
