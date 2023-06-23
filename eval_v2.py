@@ -62,7 +62,7 @@ def main(args):
     model.eval()
     sum_clean = 0
     for idx in range(0, 500):
-        sentence = gpt_data['test'][idx]['original']
+        sentence = gpt_data['test'][idx]['davinci3']
         label = gpt_data['test'][idx]['label']
         label = label2int[label]
         input_ids = tokenizer.encode(sentence, add_special_tokens=True,max_length=256,padding='max_length')
