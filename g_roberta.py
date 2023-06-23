@@ -127,7 +127,7 @@ print("Distribution of data based on labels: ",df.label.value_counts())
 MAX_LEN = 256
 
 ## Import BERT tokenizer, that is used to convert our text into tokens that corresponds to BERT library
-tokenizer = AutoTokenizer.from_pretrained('roberta-base',do_lower_case=True)
+tokenizer = AutoTokenizer.from_pretrained('roberta-large',do_lower_case=True)
 input_ids = [tokenizer.encode(sent, add_special_tokens=True,max_length=MAX_LEN,pad_to_max_length=True) for sent in sentences]
 labels = df.label.values
 
@@ -187,16 +187,16 @@ type(train_dataloader)
 
 
 # Load RobertaForSequenceClassification, the pretrained BERT model with a single linear classification layer on top. 
-model = AutoModelForSequenceClassification.from_pretrained("roberta-base", num_labels=6).to(device)
+model = AutoModelForSequenceClassification.from_pretrained("roberta-large", num_labels=6).to(device)
 
 # Parameters:
 lr = 2e-5
 adam_epsilon = 1e-8
 
 # Number of training epochs (authors recommend between 2 and 4)
-epochs = 10
+epochs = 15
 
-num_warmup_steps = len(train_dataloader)*1
+num_warmup_steps = 0#len(train_dataloader)*1
 num_training_steps = len(train_dataloader)*epochs
 
 ### In Transformers, optimizer and schedules are splitted and instantiated like this:
@@ -400,7 +400,7 @@ model_save_folder = 'model/'
 #model.save_pretrained(path_model)
 #tokenizer.save_pretrained(path_tokenizer)
 
-model_save_name = 'groberta_fineTuneModel.pth'
+model_save_name = 'groberta-large_fineTuneModel.pth'
 path = path_model = F'/home/xuxi/emo_enhance/{model_save_folder}/{model_save_name}'
 torch.save(model.state_dict(),path)
 
