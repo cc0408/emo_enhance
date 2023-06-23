@@ -102,8 +102,6 @@ def make_comp(
         }
     return data
 
-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
-
 
 if __name__ == '__main__':
     int2label = {
