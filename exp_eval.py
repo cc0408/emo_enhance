@@ -94,7 +94,7 @@ def main(args):
     mlm_model = AutoModelForMaskedLM.from_pretrained(args.model, num_labels=num_labels).cuda()
     mlm_model.eval()
     eval_model = AutoModelForSequenceClassification.from_pretrained('roberta-base', num_labels=num_labels).cuda()
-    model_checkpoint = '/home/xuxi/emo_enhance/model/groberta-base_fineTuneModel.pth'
+    model_checkpoint = '/home/xuxi/emo_enhance/model/roberta-base_fineTuneModel.pth'
     eval_model.load_state_dict(torch.load(model_checkpoint))
     eval_model.eval()
     tk2 = AutoTokenizer.from_pretrained('roberta-base',do_lower_case=True)
@@ -104,7 +104,7 @@ def main(args):
     if not pretrained:
         # Load model to attack
         suffix = '_finetune' if args.finetune else ''
-        model_checkpoint = f'/home/xuxi/emo_enhance/model/g{args.model}_fineTuneModel.pth'#os.path.join(args.result_folder, '%s_%s%s.pth' % (args.model.replace('/', '-'), args.dataset, suffix))
+        model_checkpoint = f'/home/xuxi/emo_enhance/model/{args.model}_fineTuneModel.pth'#os.path.join(args.result_folder, '%s_%s%s.pth' % (args.model.replace('/', '-'), args.dataset, suffix))
         print('Loading checkpoint: %s' % model_checkpoint)
         model.load_state_dict(torch.load(model_checkpoint))
         tokenizer.model_max_length = 512
@@ -161,15 +161,18 @@ def main(args):
     data = []
     sum_clean = 0.0
     sum_boost = 0.0
+    dnum = {}
     for idx in range(args.start_index, end_index):
         
         input_ids = encoded_dataset[testset_key]['input_ids'][idx]
         sentence = dataset[testset_key][idx]['sentence']
         label = dataset[testset_key][idx]['label']
-        # if label != 3:
-        #     continue
+        tmp = dnum.get(label, 0)
+        if tmp>9:
+            continue
+        dnum[label]=tmp+1
         print(idx)
-        print('label', gemo[label])
+        print('label', int2label[label])
         #print(sentence)
         ori_ebd = use_model.encode([sentence])
         #clean_logit = model(torch.LongTensor(input_ids).cuda().unsqueeze(0)).logits[0][label].item()
@@ -420,7 +423,7 @@ def main(args):
     num = end_index-args.start_index 
     print(sum_clean/num, sum_boost/num)
     datafl = pd.DataFrame(data)
-    df=datafl.to_csv('lamb_gemo.csv')        
+    df=datafl.to_csv('eval/lamb_60.csv')        
     # print("Token Error Rate: %.4f (over %d tokens)" % (sum(token_errors) / len(token_errors), len(token_errors)))
     '''
     torch.save({
