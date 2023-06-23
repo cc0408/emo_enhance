@@ -126,10 +126,10 @@ if __name__ == '__main__':
                             data_files={'test':'lamb_500.csv'}, 
                             column_names=["id", "ori", "la"])
     dataset = dataset.shuffle(seed=0)
-    output_path = '/home/xuxi/emo_enhance/kaggle_v3.csv'
+    output_path = '/home/xuxi/emo_enhance/kaggle_v4.csv'
     res = [['label','original','lamb','gpt', 'davinci3']]
     dnum = {}
-    for idx in range(0, 5):
+    for idx in range(0, 500):
         sentence = dataset['test'][idx]['sentence']
         label = dataset['test'][idx]['label']
         la = lamb['test'][idx+1]['la']
@@ -138,7 +138,7 @@ if __name__ == '__main__':
         if tmp>9:
             continue
         dnum[label]=tmp+1
-        messages = [{"role": "system", "content": "You are an emotional booster for editing the text by changing no more than 3 words and without punctuation so that the two sentences are mostly the same. Changes should be as small as possible to go undetected."},
+        messages = [{"role": "system", "content": "You are an emotional booster for editing the text in the vocabulary of BERT. Please change no more than 3 words so that the two sentences are mostly the same. Changes should be as small as possible to go undetected."},
                     {"role": "user","content": f"The original sentence is :{sentence}. The sentence that has a stronger {label} emotion and maintains the same semantics by adding and replacing within three words is:"}]
         results = make_requests(
             engine="gpt-3.5-turbo-0613",
@@ -154,8 +154,9 @@ if __name__ == '__main__':
             best_of=1
         )
         gpt = results['response']['choices'][0]['message']['content'].strip('"')
+        gpt = re.sub(r'[^\w\s]', '', gpt.lower())
 
-        messages = f"You are an emotional booster for editing the text by changing no more than 3 words so that the two sentences are mostly the same.  Changes should be as small as possible to go undetected. The original sentence is :{sentence}. The sentence that has a stronger {label} emotion and maintains the same semantics by adding and replacing within three words is:"
+        messages = f"You are an emotional booster for editing the text in the vocabulary of BERT. Please change no more than 3 words so that the two sentences are mostly the same. Changes should be as small as possible to go undetected. The original sentence is :{sentence}. The sentence that has a stronger {label} emotion and maintains the same semantics by adding and replacing within three words is:"
         results = make_comp(
             engine="text-davinci-003",
             messages=messages,
@@ -170,8 +171,9 @@ if __name__ == '__main__':
             best_of=1
         )
         da3 = results['response'].choices[0].text.strip()
+        da3 = re.sub(r'[^\w\s]', '', da3.lower())
 
-        print(sentence, gpt, '',sep='\n')
+        # print(sentence, gpt, '',sep='\n')
         res.append([label, sentence, la, gpt, da3])
         print(idx, end=' ',flush=True)
         if idx % 30 == 0:
