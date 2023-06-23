@@ -66,13 +66,13 @@ def make_requests(
 
 if __name__ == '__main__':
     request_batch_size = 20
-    input_path = '/home/xuxi/emo_enhance/davinci3_kaggle.csv'
+    input_path = '/home/xuxi/emo_enhance/kaggle_v4.csv'
     input_file = pd.read_csv(input_path, encoding='latin-1')
     # print(input_file)
     original = input_file['original']
     lamb = input_file['lamb']
     label = input_file['label']
-    output_path = '/home/xuxi/emo_enhance/eval/evaluation_davinci3_kaggle.csv'
+    output_path = '/home/xuxi/emo_enhance/eval/evaluation_kaggle_v4.csv'
     try:
         output_file = pd.read_csv(input_path, encoding='latin-1')
         output_file['is_better'] = [''] * 60
